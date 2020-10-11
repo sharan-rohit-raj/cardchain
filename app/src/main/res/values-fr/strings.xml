@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CardChain</string>
+    <string name="login">S\'identifier</string>
+    <string name="password">Mot de passe</string>
+    <string name="signUp">S\'inscrire</string>
+    <string name="forgotPass">Mot de passe oublié</string>
+    <string name="started">Commençons</string>
+    <string name="email">Email</string>
+    <string name="welc_back">Nous saluons le retour!</string>
+    <string name="welcome">Salut!</string>
+    <string name="re_pass">Confirmez le mot de passe</string>
+</resources>
