@@ -4,10 +4,14 @@
     <string name="login">S\'identifier</string>
     <string name="password">Mot de passe</string>
     <string name="signUp">S\'inscrire</string>
-    <string name="forgotPass">Mot de passe oublié</string>
+    <string name="forgotPass">Mot de passe oublié?</string>
     <string name="started">Commençons</string>
     <string name="email">Email</string>
     <string name="welc_back">Nous saluons le retour!</string>
     <string name="welcome">Salut!</string>
     <string name="re_pass">Confirmez le mot de passe</string>
+    <string name="forg_msg">Ne vous inquiétez pas, nous sommes là pour vous!</string>
+    <string name ="forg_hint">Entrez l\'adresse e-mail du compte</string>
+    <string name="send">Envoyer</string>
+
 </resources>

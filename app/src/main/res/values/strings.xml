@@ -3,10 +3,13 @@
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="signUp">Sign Up</string>
-    <string name="forgotPass">Forgot Password</string>
+    <string name="forgotPass">Forgot Password?</string>
     <string name="started">Let\'s Get \nStarted</string>
     <string name="email">Email</string>
     <string name="welc_back">Welcome Back!</string>
     <string name="welcome">Welcome!</string>
     <string name="re_pass">Confirm Password</string>
+    <string name="forg_msg">Don\'t worry, we have got you covered!</string>
+    <string name ="forg_hint">Enter account Email</string>
+    <string name="send">Send</string>
 </resources>

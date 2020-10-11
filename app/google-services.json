@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "2998363871",
+    "firebase_url": "https://cardchain-326fb.firebaseio.com",
+    "project_id": "cardchain-326fb",
+    "storage_bucket": "cardchain-326fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2998363871:android:e9ab76a1a67dfcaebaab6a",
+        "android_client_info": {
+          "package_name": "com.example.cardchain"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2998363871-av5vh0no7qvqk4ojnu1580fj75pqti8e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgPtiSqlbwwvMu_x6j_MjqBWo990SBd98"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2998363871-av5vh0no7qvqk4ojnu1580fj75pqti8e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

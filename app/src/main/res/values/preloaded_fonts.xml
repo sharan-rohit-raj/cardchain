@@ -2,9 +2,11 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/</item>
+        <item>@font/arizonia</item>
         <item>@font/raleway_italic</item>
         <item>@font/raleway_semibold_italic</item>
         <item>@font/roboto</item>
+        <item>@font/roboto_mono_thin</item>
         <item>@font/rochester</item>
     </array>
 </resources>
