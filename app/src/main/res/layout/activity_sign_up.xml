@@ -47,7 +47,7 @@
         app:srcCompat="@drawable/ellipse_sign" />
 
     <Button
-        android:id="@+id/login_btn"
+        android:id="@+id/forg_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_button"
@@ -63,7 +63,7 @@
 
 
     <EditText
-        android:id="@+id/sign_email"
+        android:id="@+id/forgEmail"
         android:layout_width="324dp"
         android:layout_height="57dp"
         android:ems="10"
@@ -78,7 +78,7 @@
         app:layout_constraintVertical_bias="0.569" />
 
     <EditText
-        android:id="@+id/sign_pass"
+        android:id="@+id/logPass"
         android:layout_width="323dp"
         android:layout_height="55dp"
         android:ems="10"
@@ -180,5 +180,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.459" />
+
+    <ProgressBar
+        android:id="@+id/loginProgress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.937" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

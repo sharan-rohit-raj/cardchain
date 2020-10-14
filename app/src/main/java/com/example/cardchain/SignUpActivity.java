@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class SignUpActivity extends AppCompatActivity {
     private String emailId;
     private String pass;
     private String confPass;
+    private ProgressBar progressBar;
     protected static String TAG = "SignUpActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +35,11 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         //Assign UI elements to Java
-        signUpButton = findViewById(R.id.login_btn);
-        emailField = findViewById(R.id.sign_email);
-        passField = findViewById(R.id.sign_pass);
+        signUpButton = findViewById(R.id.forg_btn);
+        emailField = findViewById(R.id.forgEmail);
+        passField = findViewById(R.id.logPass);
         confpassField = findViewById(R.id.sign_conf_pass);
+        progressBar = findViewById(R.id.loginProgress);
         final Validation validation = new Validation();
         final AuthenticationHandler authHandler = new AuthenticationHandler();
 
@@ -48,43 +51,59 @@ public class SignUpActivity extends AppCompatActivity {
                 if(emailField.getText().toString().equals("") && passField.getText().toString().equals("") &&
                 confpassField.getText().toString().equals("")){
                     Toast.makeText(SignUpActivity.this, "Must not leave any field empty !", Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 else if(validation.emailValidation(emailField.getText().toString().trim()) == false){
                     Toast.makeText(SignUpActivity.this, "Email Id is invalid !", Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 else if(passField.getText().toString().equals(confpassField.getText().toString())== false){
                     Toast.makeText(SignUpActivity.this, "Passwords don't match !", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                else{
-                    emailId = emailField.getText().toString().trim();
-                    pass = passField.getText().toString();
+
+                signUpButton.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
+                emailId = emailField.getText().toString().trim();
+                pass = passField.getText().toString();
 
 
-                    authHandler.signUp(emailId,pass).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>(){
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task){
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "createUserWithEmail:success");
-                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                successDialog(getString(R.string.dial_suc_msg),user);
-                            } else{
-                                // If sign in fails, display a message to the user.
-
-                                Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-
-                            }
+                authHandler.signUp(emailId,pass).addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>(){
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task){
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "createUserWithEmail:success");
+                            signUpButton.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.INVISIBLE);
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            successDialog(getString(R.string.dial_suc_msg),user);
+                        }
+                        else{
+                            // If sign in fails, display a message to the user.
+                            signUpButton.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.INVISIBLE);
+                            Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
 
                         }
 
-                    });
+                    }
 
-                }
+                });
+
+
             }
 
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
     @Override
     public void onBackPressed()
     {
@@ -105,7 +124,6 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
-                intent.putExtra("user",user_val);
                 dialog.dismiss();
                 startActivity(intent);
             }

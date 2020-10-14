@@ -1,33 +1,95 @@
 package com.example.cardchain;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     private static final int HOME_LOGIN_SIGNAL = 10;
     private static final String TAG  = "LoginActivity";
-    Button login;
+    private Button login;
+    private ProgressBar loginProg;
+    private EditText emailField;
+    private EditText passField;
+    private String emailId;
+    private String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        login = findViewById(R.id.login_btn);
+        login = findViewById(R.id.forg_btn);
+        loginProg = findViewById(R.id.loginProgress);
+        emailField = findViewById(R.id.forgEmail);
+        passField = findViewById(R.id.logPass);
+        final Validation validation = new Validation();
+        final AuthenticationHandler authHandle = new AuthenticationHandler();
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivityForResult(intent,HOME_LOGIN_SIGNAL);
+                if(emailField.getText().toString().equals("") && passField.getText().toString().equals("")){
+                    Toast.makeText(LoginActivity.this, "Must not leave any field empty !", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(validation.emailValidation(emailField.getText().toString().trim()) == false){
+                    Toast.makeText(LoginActivity.this, "Email Id is invalid !", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                loginProg.setVisibility(View.VISIBLE);
+                login.setVisibility(View.INVISIBLE);
+                emailId = emailField.getText().toString().trim();
+                password = passField.getText().toString();
+
+                authHandle.signIn(emailId,password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>(){
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task){
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "login:success");
+                            login.setVisibility(View.VISIBLE);
+                            loginProg.setVisibility(View.INVISIBLE);
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            updateUI(user);
+                        }
+                        else{
+                            // If sign in fails, display a message to the user.
+                            login.setVisibility(View.VISIBLE);
+                            loginProg.setVisibility(View.INVISIBLE);
+
+                            //TODO:Yet to add a wrong credentials login dialog box
+                            Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "login :failure", task.getException());
+
+                        }
+                    }
+                });
             }
         });
     }
+
+    private void updateUI(FirebaseUser user) {
+        if(user != null){
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+        }
+    }
+
     public void forgotPassFunc(View view) {
         Intent forgotPass = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
         startActivity(forgotPass);
@@ -43,18 +105,9 @@ public class LoginActivity extends AppCompatActivity {
                 R.anim.slide_out_right);
     }
 
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-    if(requestCode == HOME_LOGIN_SIGNAL){
-        if(resultCode == Activity.RESULT_OK){
-            Log.d(TAG,"Closing HomeActivity");
-            HomeActivity.HomeAct.finish();
-        }
-    }
-
-
+    protected void onResume() {
+        super.onResume();
+        loginProg.setVisibility(View.INVISIBLE);
     }
 }

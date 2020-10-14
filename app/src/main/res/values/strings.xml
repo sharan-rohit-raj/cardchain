@@ -14,4 +14,5 @@
     <string name="send">Send</string>
     <string name="ok">Okay</string>
     <string name="dial_suc_msg">You\'ve Signed Up!</string>
+    <string name="forg_dial">Check your Email !</string>
 </resources>
