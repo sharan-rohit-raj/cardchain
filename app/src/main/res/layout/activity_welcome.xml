@@ -91,7 +91,7 @@
         app:layout_constraintVertical_bias="0.572" />
 
     <Button
-        android:id="@+id/sign_up"
+        android:id="@+id/login_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_button"

@@ -13,5 +13,7 @@
     <string name="forg_msg">Ne vous inquiétez pas, nous sommes là pour vous!</string>
     <string name ="forg_hint">Entrez l\'adresse e-mail du compte</string>
     <string name="send">Envoyer</string>
+    <string name="ok">d\'accord</string>
+    <string name="dial_suc_msg">Vous vous êtes inscrit!</string>
 
 </resources>

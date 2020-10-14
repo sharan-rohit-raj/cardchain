@@ -10,6 +10,8 @@
     <string name="welcome">\ Welcome!</string>
     <string name="re_pass">Confirm Password</string>
     <string name="forg_msg">Don\'t worry, we have got you covered!</string>
-    <string name ="forg_hint">Enter account Email</string>
+    <string name="forg_hint">Enter account Email</string>
     <string name="send">Send</string>
+    <string name="ok">Okay</string>
+    <string name="dial_suc_msg">You\'ve Signed Up!</string>
 </resources>

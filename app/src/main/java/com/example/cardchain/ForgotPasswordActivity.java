@@ -22,4 +22,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     public void returnToLoginFunc(View view) {
         this.onBackPressed();
     }
+
+
 }
