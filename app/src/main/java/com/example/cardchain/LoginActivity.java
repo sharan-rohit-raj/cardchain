@@ -3,7 +3,9 @@ package com.example.cardchain;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
+    private SharedPreferences sharedPref;
     private static final int HOME_LOGIN_SIGNAL = 10;
     private static final String TAG  = "LoginActivity";
     private Button login;
@@ -31,6 +34,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Context context = getApplicationContext();
+        sharedPref = context.getSharedPreferences(getString(R.string.login_preference), Context.MODE_PRIVATE);
+        String emailValue = sharedPref.getString("DefaultEmail", "email@domain.com");
         setContentView(R.layout.activity_login);
         login = findViewById(R.id.forg_btn);
         loginProg = findViewById(R.id.loginProgress);
@@ -38,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         passField = findViewById(R.id.logPass);
         final Validation validation = new Validation();
         final AuthenticationHandler authHandle = new AuthenticationHandler();
+        emailField.setText(emailValue);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,12 +67,15 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task){
                         if (task.isSuccessful()) {
+                            SharedPreferences.Editor editor = sharedPref.edit();
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "login:success");
                             login.setVisibility(View.VISIBLE);
                             loginProg.setVisibility(View.INVISIBLE);
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             updateUI(user);
+                            editor.putString("DefaultEmail", emailField.getText().toString());
+                            editor.commit();
                         }
                         else{
                             // If sign in fails, display a message to the user.
