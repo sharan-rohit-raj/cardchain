@@ -28,4 +28,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welc"
         app:layout_constraintVertical_bias="0.175" />
+
+    <Button
+        android:id="@+id/addCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="AddNewCard"
+        android:text="Test Card Add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logout"
+        app:layout_constraintVertical_bias="0.916" />
+
+    <ImageView
+        android:id="@+id/BarcodeTestDisplay"
+        android:layout_width="127dp"
+        android:layout_height="122dp"
+        app:layout_constraintBottom_toTopOf="@+id/addCard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logout"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="?android:attr/galleryItemBackground" />
 </androidx.constraintlayout.widget.ConstraintLayout>
