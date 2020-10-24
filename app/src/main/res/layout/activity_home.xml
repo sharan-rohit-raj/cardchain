@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".HomeActivity">
 
-    <TextView
-        android:id="@+id/welc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="40dp  "
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <include
+        android:id="@+id/tool_inc"
+        layout="@layout/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="-1dp" />
 
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/tool_inc"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="72dp"></FrameLayout>
+
+    <com.etebarian.meowbottomnavigation.MeowBottomNavigation
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="LogOut"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welc"
-        app:layout_constraintVertical_bias="0.175" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:id="@+id/bottom_nav"
+        app:mbn_defaultIconColor="#ffffff"
+        app:mbn_backgroundBottomColor="#000000"
+        app:mbn_selectedIconColor="#ffffff"
+        android:layout_alignParentBottom="true"
+        ></com.etebarian.meowbottomnavigation.MeowBottomNavigation>
+
+
+</RelativeLayout>

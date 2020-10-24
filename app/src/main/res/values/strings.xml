@@ -16,4 +16,5 @@
     <string name="dial_suc_msg">You\'ve Signed Up!</string>
     <string name="forg_dial">Check your Email !</string>
     <string name="login_preference">preferences</string>
+    <string name="logout">Logout</string>
 </resources>
