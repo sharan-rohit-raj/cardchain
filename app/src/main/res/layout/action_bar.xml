@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tool_bar"
+    android:paddingTop="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="#FAFAFA"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    app:navigationIcon="@drawable/ic_tool_menu">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/tool_icon"
+            android:layout_width="63dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="50dp"
+            android:foregroundGravity="center_vertical"
+            android:paddingLeft="0dp"
+            android:paddingTop="5dp"
+            android:src="@drawable/welc_icon"></ImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignLeft="@id/tool_icon"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="54dp"
+            android:layout_toRightOf="@id/tool_icon"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:text="CardChain"
+            android:textColor="#000000"
+            android:textSize="20dp"></TextView>
+
+        <ImageButton
+            android:id="@+id/log_out"
+            android:layout_width="53dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="#FDFBFB"
+            app:srcCompat="@drawable/ic_tool_logout" />
+
+
+    </RelativeLayout>
+
+
+</androidx.appcompat.widget.Toolbar>

@@ -16,4 +16,7 @@
     <string name="ok">d\'accord</string>
     <string name="dial_suc_msg">Vous vous êtes inscrit!</string>
     <string name="forg_dial">Vérifiez votre email!</string>
+    <string name="login_preference">préférences</string>
+    <string name="logout">Se déconnecter</string>
+
 </resources>
