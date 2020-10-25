@@ -162,8 +162,5 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
         if (fragment != null) {
             fragment.onActivityResult(requestCode, resultCode, intent);
         }
-        else{
-            Log.d("WELP","WHY NO FRag");
-        }
     }
 }
