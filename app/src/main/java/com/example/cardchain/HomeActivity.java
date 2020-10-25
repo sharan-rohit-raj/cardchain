@@ -1,18 +1,25 @@
 package com.example.cardchain;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,8 +33,23 @@ import MainFragments.FragmentSlide;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
+
+
+import java.util.HashMap;
+import java.util.Map;
+
+
 public class HomeActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
-    TextView welcome;
     FirebaseAuth auth;
     ImageButton logoutBtn;
     private Toolbar toolBar;
@@ -37,14 +59,19 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
     public static Activity HomeAct;
     private boolean alreadyCalled;
     MeowBottomNavigation meowNav;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         HomeAct = this;
         toolBar = findViewById(R.id.tool_inc);
         meowNav = findViewById(R.id.bottom_nav);
         logoutBtn = toolBar.findViewById(R.id.log_out);
+        auth = FirebaseAuth.getInstance();
         setSupportActionBar(toolBar);
 
 
@@ -53,10 +80,10 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
         meowNav.add(new MeowBottomNavigation.Model(SLIDE_ID, R.drawable.ic_nav_card));
         meowNav.add(new MeowBottomNavigation.Model(LIST_CARD_ID, R.drawable.ic_nav_list));
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentSlide()).commit();
-        auth = FirebaseAuth.getInstance();
+
         alreadyCalled = false;
         FirebaseUser user = auth.getCurrentUser();
-        if (user == null) {
+        if(user == null){
             finish();
             return;
         }
@@ -82,10 +109,11 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
                         select_fragment = new FragmentList();
                         break;
                     case ADD_CARD_ID:
+
                         select_fragment = new FragmentAdd();
                         break;
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, select_fragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, select_fragment,"CurFrag").commit();
                 return null;
             }
         });
@@ -95,7 +123,9 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
             public void onClick(View view) {
                 auth.signOut();
             }
+
         });
+
     }
 
         @Override
@@ -114,11 +144,10 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
     @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         Log.d("FirebaseHome","Calling AuthState");
-        if(firebaseAuth.getCurrentUser() == null && alreadyCalled == false){
+        if(firebaseAuth.getCurrentUser() == null && !alreadyCalled){
             Log.d("FirebaseHome","Calling start login");
             alreadyCalled = true;
             startLoginActivity();
-            return;
         }
     }
 
@@ -126,5 +155,15 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("CurFrag");
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, intent);
+        }
+        else{
+            Log.d("WELP","WHY NO FRag");
+        }
     }
 }
