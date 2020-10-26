@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Context context = getApplicationContext();
         sharedPref = context.getSharedPreferences(getString(R.string.login_preference), Context.MODE_PRIVATE);
-        String emailValue = sharedPref.getString("DefaultEmail", "");
+        String emailValue = sharedPref.getString("lastEmail", "");
         setContentView(R.layout.activity_login);
         login = findViewById(R.id.forg_btn);
         loginProg = findViewById(R.id.loginProgress);
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                             loginProg.setVisibility(View.INVISIBLE);
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             updateUI(user);
-                            editor.putString("", emailField.getText().toString());
+                            editor.putString("lastEmail", emailField.getText().toString());
                             editor.commit();
                         }
                         else{
