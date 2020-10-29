@@ -163,4 +163,13 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
             fragment.onActivityResult(requestCode, resultCode, intent);
         }
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("CurFrag");
+        if (fragment != null) {
+            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
 }
