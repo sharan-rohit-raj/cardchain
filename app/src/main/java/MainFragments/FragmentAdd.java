@@ -96,7 +96,7 @@ public class FragmentAdd extends Fragment {
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference ref) {
-                                    Toast.makeText(act,"DocumentSnapshot added with ID: ",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(act,"Barcode Uploaded to FireStore",Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
