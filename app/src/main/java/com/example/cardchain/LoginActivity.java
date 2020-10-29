@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(emailField.getText().toString().equals("") && passField.getText().toString().equals("")){
+                if(emailField.getText().toString().equals("") || passField.getText().toString().equals("")){
                     Toast.makeText(LoginActivity.this, "Must not leave any field empty !", Toast.LENGTH_SHORT).show();
                     return;
                 }

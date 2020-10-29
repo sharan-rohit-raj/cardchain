@@ -48,7 +48,7 @@ public class SignUpActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(emailField.getText().toString().equals("") && passField.getText().toString().equals("") &&
+                if(emailField.getText().toString().equals("") || passField.getText().toString().equals("") ||
                 confpassField.getText().toString().equals("")){
                     Toast.makeText(SignUpActivity.this, "Must not leave any field empty !", Toast.LENGTH_SHORT).show();
                     return;
