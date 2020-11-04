@@ -4,24 +4,45 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <TextView
+        android:id="@+id/CardName"
+        android:layout_width="119dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/Card"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignStart="@id/Card"
+        android:layout_marginBottom="2dp"
+        android:text="Tim Hortons"
+        android:textSize="18sp" />
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="20dp"
         android:layout_centerInParent="true"
-        android:layout_margin="8dp">
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="300dp">
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="20dp">
 
-            <ImageView
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_centerInParent="true">
+
+            <ImageButton
                 android:id="@+id/card_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/pattern1"
-                android:scaleType="centerCrop">
 
-            </ImageView>
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pattern1">
+
+            </ImageButton>
+
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
