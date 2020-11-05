@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cardchain">
-    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -10,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfileActivity"></activity>
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".AddCardActivity"></activity>
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".HomeActivity" />
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
@@ -28,5 +28,7 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>
