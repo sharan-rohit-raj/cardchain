@@ -18,5 +18,11 @@
     <string name="forg_dial">Vérifiez votre email!</string>
     <string name="login_preference">préférences</string>
     <string name="logout">Se déconnecter</string>
+    <string name="add_card">Ajouter une nouvelle carte</string>
+    <string name="card_num">Numéro de carte</string>
+    <string name="card_holder">Nom du titulaire</string>
+    <string name="save">Sauver</string>
+    <string name="scan_card">Carte de numérisation</string>
+    <string name="card_name">Nom de la carte</string>
 
 </resources>

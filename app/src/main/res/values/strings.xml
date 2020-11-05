@@ -17,4 +17,10 @@
     <string name="forg_dial">Check your Email !</string>
     <string name="login_preference">preferences</string>
     <string name="logout">Logout</string>
+    <string name="add_card">Add New Card</string>
+    <string name="card_num">Card Number</string>
+    <string name="card_holder">Card Holder Name</string>
+    <string name="save">Save</string>
+    <string name="scan_card">Scan Card</string>
+    <string name="card_name">Card Name</string>
 </resources>

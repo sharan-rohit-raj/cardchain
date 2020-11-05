@@ -1,52 +1,26 @@
 package com.example.cardchain;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import MainFragments.FragmentAdd;
 import MainFragments.FragmentList;
 import MainFragments.FragmentSlide;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
-
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class HomeActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
@@ -76,7 +50,7 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
 
         //Setting Bottom navigation Bar
-        meowNav.add(new MeowBottomNavigation.Model(ADD_CARD_ID, R.drawable.ic_nav_add));
+//        meowNav.add(new MeowBottomNavigation.Model(ADD_CARD_ID, R.drawable.ic_nav_add));
         meowNav.add(new MeowBottomNavigation.Model(SLIDE_ID, R.drawable.ic_nav_card));
         meowNav.add(new MeowBottomNavigation.Model(LIST_CARD_ID, R.drawable.ic_nav_list));
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentSlide()).commit();
@@ -97,6 +71,7 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
             }
         });
 
+        meowNav.show(SLIDE_ID, true);
         meowNav.setOnShowListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
@@ -108,13 +83,22 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
                     case LIST_CARD_ID:
                         select_fragment = new FragmentList();
                         break;
-                    case ADD_CARD_ID:
-
-                        select_fragment = new FragmentAdd();
-                        break;
+//                    case ADD_CARD_ID:
+//
+//                        select_fragment = new FragmentAdd();
+//                        break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, select_fragment,"CurFrag").commit();
                 return null;
+            }
+        });
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeActivity.this, AddCardActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -125,6 +109,8 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
             }
 
         });
+
+
 
     }
 

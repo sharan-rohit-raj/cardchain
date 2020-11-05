@@ -17,13 +17,26 @@
 
     <FrameLayout
         android:id="@+id/fragment_container"
-        android:layout_below="@id/tool_inc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/tool_inc"
         android:layout_alignBottom="@+id/tool_inc"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="72dp"></FrameLayout>
+        android:layout_marginTop="-55dp"
+        android:layout_marginBottom="0dp">
 
+    </FrameLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="85dp"
+        android:background="@drawable/fab_shape"
+        android:layout_height="75dp"
+        android:paddingRight="100dp"
+        android:clickable="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_above="@+id/bottom_nav"
+        app:srcCompat="@drawable/ic_nav_add" />
     <com.etebarian.meowbottomnavigation.MeowBottomNavigation
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

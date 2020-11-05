@@ -2,6 +2,7 @@ package MainFragments;
 
 import android.animation.ArgbEvaluator;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +18,15 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.cardchain.Adapter;
 import com.example.cardchain.Model;
 import com.example.cardchain.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +43,8 @@ public class FragmentSlide extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         final View view =  inflater.inflate((R.layout.fragment_slide),container,false);
+
+
         models = new ArrayList<>();
         models.add(new Model(R.drawable.pattern1));
         models.add(new Model(R.drawable.pattern2));
@@ -62,6 +74,7 @@ public class FragmentSlide extends Fragment {
         });
         return view;
     }
+
 
 
 }
