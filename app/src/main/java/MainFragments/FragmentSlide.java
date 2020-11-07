@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,6 +38,9 @@ public class FragmentSlide extends Fragment {
     ArrayList<Model> models;
     Integer[] colors = null;
     ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+    FirebaseAuth auth;
+    FirebaseUser user;
+    TextView displayName;
 
     @Nullable
     @Override
@@ -50,6 +54,13 @@ public class FragmentSlide extends Fragment {
         models.add(new Model(R.drawable.pattern2));
         models.add(new Model(R.drawable.pattern3));
 
+        displayName = view.findViewById(R.id.display_name);
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+
+        if(user.getDisplayName() != null){
+            displayName.setText(user.getDisplayName());
+        }
         adapter = new Adapter(models, view.getContext());
 
         viewPager = view.findViewById(R.id.view_pager);
@@ -75,6 +86,11 @@ public class FragmentSlide extends Fragment {
         return view;
     }
 
-
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(user.getDisplayName() != null){
+            displayName.setText(user.getDisplayName());
+        }
+    }
 }

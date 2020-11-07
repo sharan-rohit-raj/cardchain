@@ -172,20 +172,19 @@ public class EditProfile extends AppCompatActivity {
 
 
     public void  saveAuthInfo(EditProfileModel editProfileModel){
-        if(user.getDisplayName().equals(editProfileModel.getFirst_name()) == false){
-            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                    .setDisplayName(editProfileModel.getFirst_name())
-                    .build();
-            user.updateProfile(profileUpdates)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Log.d(TAG, "User profile updated.");
-                            }
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(editProfileModel.getFirst_name())
+                .build();
+        user.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "User profile updated.");
                         }
-                    });
-        }
+                    }
+                });
+
         return;
     }
 

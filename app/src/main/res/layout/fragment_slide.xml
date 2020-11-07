@@ -6,13 +6,37 @@
 
 
     <androidx.viewpager.widget.ViewPager
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:foregroundGravity="center"
-        android:layout_centerVertical="true"
         android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="441dp"
         android:layout_centerInParent="true"
-        android:overScrollMode="never"
-        android:clipToPadding="false"></androidx.viewpager.widget.ViewPager>
+        android:clipToPadding="false"
+        android:foregroundGravity="center"
+        android:overScrollMode="never"></androidx.viewpager.widget.ViewPager>
+
+    <TextView
+        android:id="@+id/hello_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/rochester"
+        android:text="@string/hello"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/display_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="100dp"
+        android:layout_toRightOf="@+id/hello_view"
+        android:fontFamily="@font/rochester"
+        android:text="@string/user"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        android:textStyle="italic" />
 
 </RelativeLayout>

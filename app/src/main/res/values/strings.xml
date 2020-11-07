@@ -32,4 +32,6 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="ph_no">Phone Number</string>
+    <string name="hello">Hello,</string>
+    <string name="user">User</string>
 </resources>
