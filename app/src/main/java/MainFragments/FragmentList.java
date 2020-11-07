@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +38,7 @@ public class FragmentList extends Fragment {
     ListCardModel cardModel;
     CardListAdapter cardListAdapter;
     ListView cardListView;
+    ProgressBar progList;
     View view;
 
     @Nullable
@@ -57,6 +59,8 @@ public class FragmentList extends Fragment {
 
 
         cardListView = view.findViewById(R.id.cards_list);
+        progList = view.findViewById(R.id.progress_list);
+        progList.setVisibility(View.VISIBLE);
 
         return view;
     }
@@ -66,20 +70,25 @@ public class FragmentList extends Fragment {
         super.onStart();
 
         cardListener = db.collection("users").document(user.getUid()).collection("cards").whereEqualTo("tag","all").addSnapshotListener(new EventListener<QuerySnapshot>() {
+
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
+                    progList.setVisibility(View.INVISIBLE);
                     Log.w(TAG, "Listen failed.", error);
                     return;
                 }
+
+                progList.setVisibility(View.VISIBLE);
                 Log.d(TAG, "Number of Cards: "+ value.size());
                 for(QueryDocumentSnapshot doc: value){
                     Random rand = new Random();
                     int randomImage = imageIDs.get(rand.nextInt(imageIDs.size()));
-                    cardModel = new ListCardModel(doc.get("cardnumber").toString(), doc.get("cardholder").toString(), randomImage);
+
+                    cardModel = new ListCardModel(doc.get("cardnumber").toString(), doc.get("cardname").toString(), randomImage);
                     boolean duplicate = false;
                     for(ListCardModel a_model : cardModels){
-                        if(a_model.getCardnumber() == cardModel.getCardnumber() && a_model.getCardholdername() == cardModel.getCardholdername()){
+                        if(a_model.getCardname() == cardModel.getCardname() && a_model.getCardnumber() == cardModel.getCardnumber()){
                             duplicate = true;
                         }
                     }
@@ -88,8 +97,9 @@ public class FragmentList extends Fragment {
                         cardListAdapter = new CardListAdapter(view.getContext(), cardModels);
                         cardListView.setAdapter(cardListAdapter);
                     }
-
                 }
+                progList.setVisibility(View.INVISIBLE);
+
             }
         });
     }
@@ -97,6 +107,10 @@ public class FragmentList extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        cardListener.remove();
+
+        progList.setVisibility(View.INVISIBLE);
+        if(cardListener != null){
+            cardListener.remove();
+        }
     }
 }

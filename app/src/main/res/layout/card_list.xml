@@ -35,7 +35,7 @@
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.038"
+                app:layout_constraintHorizontal_bias="0.224"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.789" />
@@ -46,18 +46,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto"
-                android:text="@string/card_holder"
+                android:text="@string/card_name"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.047"
+                app:layout_constraintHorizontal_bias="0.212"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.234" />
+                app:layout_constraintVertical_bias="0.239" />
 
             <TextView
-                android:id="@+id/card_hold_name_list"
+                android:id="@+id/card_name_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -67,10 +67,10 @@
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.126"
+                app:layout_constraintHorizontal_bias="0.46"
                 app:layout_constraintStart_toEndOf="@+id/textView10"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.236" />
+                app:layout_constraintVertical_bias="0.239" />
 
             <TextView
                 android:id="@+id/card_num_list"
@@ -82,7 +82,7 @@
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.562"
+                app:layout_constraintHorizontal_bias="0.718"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.789" />

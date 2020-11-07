@@ -23,4 +23,13 @@
     <string name="save">Save</string>
     <string name="scan_card">Scan Card</string>
     <string name="card_name">Card Name</string>
+    <string name="profile">Profile</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="ph_no">Phone Number</string>
 </resources>

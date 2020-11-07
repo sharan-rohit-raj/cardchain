@@ -44,12 +44,12 @@ public class CardListAdapter extends BaseAdapter {
 
         ImageView imageView = view.findViewById(R.id.card_list_img);
         TextView cardNumber = view.findViewById(R.id.card_num_list);
-        TextView cardHolder = view.findViewById(R.id.card_hold_name_list);
+        TextView cardName = view.findViewById(R.id.card_name_list);
         ListCardModel currModel = listCardModels.get(i);
         imageView.setImageResource(currModel.getImageID());
         imageBlur = new ImageBlur(imageView.getContext());
         imageBlur.makeBlur(imageView);
-        cardHolder.setText(currModel.getCardholdername());
+        cardName.setText(currModel.getCardname());
         cardNumber.setText(currModel.getCardnumber());
 
 

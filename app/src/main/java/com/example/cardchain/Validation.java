@@ -64,4 +64,11 @@ public class Validation {
 
         return final_suggestion;
     }
+
+    public boolean phoneNumValidation(String phone_num){
+        Pattern pattern = Pattern.compile("^\\d{10}$");
+        Matcher matcher = pattern.matcher(phone_num);
+
+        return matcher.matches();
+    }
 }

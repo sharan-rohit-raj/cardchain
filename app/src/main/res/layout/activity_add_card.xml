@@ -91,20 +91,6 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView"
         app:layout_constraintVertical_bias="0.945" />
 
-    <ImageButton
-        android:id="@+id/add_card_back_btn"
-        android:layout_width="34dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="4dp"
-        android:background="@color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView6"
-        app:layout_constraintHorizontal_bias="0.533"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.028"
-        app:srcCompat="@drawable/left_arrow" />
-
     <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
     <!--        android:id="@+id/constraintLayout"-->
     <!--        android:layout_width="335dp"-->
@@ -223,6 +209,20 @@
 
     <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
+    <ImageButton
+        android:id="@+id/add_card_back_btn"
+        android:layout_width="71dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textView6"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.017"
+        app:srcCompat="@drawable/left_arrow" />
+
     <ImageView
         android:id="@+id/imageView16"
         android:layout_width="wrap_content"
@@ -246,10 +246,10 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.292"
+        app:layout_constraintHorizontal_bias="0.36"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintVertical_bias="0.03" />
 
     <TextView
         android:id="@+id/textView11"

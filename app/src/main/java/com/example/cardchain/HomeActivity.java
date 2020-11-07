@@ -1,8 +1,10 @@
 package com.example.cardchain;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,6 +30,8 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
     FirebaseAuth auth;
     ImageButton logoutBtn;
     private Toolbar toolBar;
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle drawerToggle;
     private static final int SLIDE_ID = 2;
     private static final int ADD_CARD_ID = 1;
     private static final int LIST_CARD_ID = 3;
@@ -45,9 +50,23 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
         toolBar = findViewById(R.id.tool_inc);
         meowNav = findViewById(R.id.bottom_nav);
         logoutBtn = toolBar.findViewById(R.id.log_out);
+//        View view = getLayoutInflater().inflate(R.layout.drawer_layout,null);
+
         auth = FirebaseAuth.getInstance();
         setSupportActionBar(toolBar);
-
+        toolBar.setNavigationIcon(R.drawable.ic_drawer_profile);
+        toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeActivity.this, EditProfile.class);
+                startActivity(intent);
+            }
+        });
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        drawerLayout = view.findViewById(R.id.app_drawer);
+//        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,toolBar, R.string.open,R.string.close);
+//        drawerLayout.addDrawerListener(drawerToggle);
+//        drawerToggle.syncState();
 
         //Setting Bottom navigation Bar
 //        meowNav.add(new MeowBottomNavigation.Model(ADD_CARD_ID, R.drawable.ic_nav_add));
