@@ -61,7 +61,8 @@ public class AddCardActivity extends AppCompatActivity {
         vcardCompany = findViewById(R.id.card_name_view);
         addCardImage = findViewById(R.id.add_card_img);
         backBtn = findViewById(R.id.add_card_back_btn);
-
+        db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
         ArrayList<Integer> cardImages = new ArrayList<>();
         cardImages.add(R.drawable.pattern1);
         cardImages.add(R.drawable.pattern2);
@@ -76,7 +77,11 @@ public class AddCardActivity extends AppCompatActivity {
         addCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddNewCard(view);
+                if (ecardHoldName.getText().toString().equals("") || ecardName.getText().toString().equals("")){
+                    Toast.makeText(AddCardActivity.this,"Please Fill Out Holder Name and Card Name",Toast.LENGTH_SHORT).show();
+                }else {
+                    AddNewCard(view);
+                }
             }
         });
 
@@ -143,20 +148,27 @@ public class AddCardActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("WELP","IT IS HERE");
         if (requestCode== IntentIntegrator.REQUEST_CODE) {
             IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
             if (result != null) {
                 if (result.getContents() != null) {
-                    final Activity act= this;
+                    final Activity act= AddCardActivity.this;
                     String barcodeData=result.getContents();
                     Toast.makeText(act,"Barcode Data Read! :  "+ barcodeData,Toast.LENGTH_SHORT).show();
                     String barcodeType=result.getFormatName();
                     Map<String, Object> cardDetails = new HashMap<>();
+                    cardDetails.put("cardholder",ecardHoldName.getText().toString());
+                    cardDetails.put("cardname",ecardName.getText().toString());
+                    if (ecardNumber.getText().toString().equals("")){
+                        cardDetails.put("cardnumber",barcodeData.substring(0,10));
+                    }else {
+                        cardDetails.put("cardnumber", ecardNumber.getText().toString());
+                    }
                     cardDetails.put("Data",barcodeData);
                     cardDetails.put("BarcodeType",barcodeType);
+                    cardDetails.put("tag","all");
                     db.collection("users").document(auth.getUid()).collection("cards")
                             .add(cardDetails)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -191,7 +203,7 @@ public class AddCardActivity extends AppCompatActivity {
     }
 
     private void openScanner() {
-        new IntentIntegrator(this).initiateScan();
+        new IntentIntegrator(AddCardActivity.this).initiateScan();
     }
 
     private boolean checkPermission(String permission){
