@@ -162,7 +162,7 @@ public class AddCardActivity extends AppCompatActivity {
                     cardDetails.put("cardholder",ecardHoldName.getText().toString());
                     cardDetails.put("cardname",ecardName.getText().toString());
                     if (ecardNumber.getText().toString().equals("")){
-                        cardDetails.put("cardnumber",barcodeData.substring(0,10));
+                        cardDetails.put("cardnumber",barcodeData.substring(0,Math.min(10,barcodeData.length())));
                     }else {
                         cardDetails.put("cardnumber", ecardNumber.getText().toString());
                     }
