@@ -186,6 +186,7 @@ public class AddCardActivity extends AppCompatActivity {
                 }
             }
         }
+        finish();
     }
 
     public void AddNewCard(View view) {

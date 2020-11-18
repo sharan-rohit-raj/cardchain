@@ -7,12 +7,12 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/add_save_btn"
+        android:id="@+id/scan_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_button"
         android:fontFamily="@font/roboto"
-        android:text="@string/save"
+        android:text="@string/scan_card"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,19 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.86" />
-
-    <Button
-        android:id="@+id/scan_btn"
-        android:layout_width="83dp"
-        android:layout_height="38dp"
-        android:background="@drawable/transp_button"
-        android:fontFamily="@font/roboto"
-        android:text="@string/scan_card"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.942" />
 
     <EditText
         android:id="@+id/edit_card_hold"
