@@ -85,7 +85,7 @@ public class FragmentList extends Fragment {
                     Random rand = new Random();
                     int randomImage = imageIDs.get(rand.nextInt(imageIDs.size()));
 
-                    cardModel = new ListCardModel(doc.get("cardnumber").toString(), doc.get("cardname").toString(), randomImage);
+                    cardModel = new ListCardModel(doc.get("cardnumber").toString(), doc.get("cardname").toString(), randomImage,doc.get("Data").toString(),doc.get("BarcodeType").toString());
                     boolean duplicate = false;
                     for(ListCardModel a_model : cardModels){
                         if(a_model.getCardname() == cardModel.getCardname() && a_model.getCardnumber() == cardModel.getCardnumber()){
