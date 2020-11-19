@@ -19,7 +19,6 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.cardchain.Adapter;
-import com.example.cardchain.CardListAdapter;
 import com.example.cardchain.ListCardModel;
 import com.example.cardchain.Model;
 import com.example.cardchain.R;
@@ -49,10 +48,11 @@ public class FragmentSlide extends Fragment {
     FirebaseUser user;
     TextView displayName;
     ListenerRegistration cardListener;
-    ArrayList<ListCardModel> cardModels;
-    ListCardModel cardModel;
     ProgressBar progList;
     ArrayList<Integer> imageIDs;
+    Model model;
+    View view;
+
 
     @Nullable
     @Override
@@ -63,59 +63,16 @@ public class FragmentSlide extends Fragment {
         db = FirebaseFirestore.getInstance();
         user = auth.getCurrentUser();
         imageIDs = new ArrayList<>();
-        cardModels = new ArrayList<>();
 
         progList = view.findViewById(R.id.progress_list);
         progList.setVisibility(View.VISIBLE);
-        cardListener = db.collection("users").document(user.getUid()).collection("cards").whereEqualTo("tag","all").addSnapshotListener(new EventListener<QuerySnapshot>() {
 
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    progList.setVisibility(View.INVISIBLE);
-                    Log.w(TAG, "Listen failed.", error);
-                    return;
-                }
-
-                progList.setVisibility(View.VISIBLE);
-                Log.d(TAG, "Number of Cards: "+ value.size());
-                for(QueryDocumentSnapshot doc: value){
-                    Random rand = new Random();
-                    int randomImage = imageIDs.get(rand.nextInt(imageIDs.size()));
-
-                    cardModel = new ListCardModel(doc.get("cardnumber").toString(), doc.get("cardname").toString(), randomImage);
-                    boolean duplicate = false;
-                    for(ListCardModel a_model : cardModels){
-                        if(a_model.getCardname() == cardModel.getCardname() && a_model.getCardnumber() == cardModel.getCardnumber()){
-                            duplicate = true;
-                        }
-                    }
-                    if(duplicate == false){
-                        ListView cardListView;
-                        CardListAdapter cardListAdapter;
-                        cardListView = view.findViewById(R.id.cards_list);
-                        cardModels.add(cardModel);
-                        cardListAdapter = new CardListAdapter(view.getContext(), cardModels);
-                        cardListView.setAdapter(cardListAdapter);
-                    }
-                }
-                progList.setVisibility(View.INVISIBLE);
-
-            }
-        });
-        models = new ArrayList<>();
-        models.add(new Model(R.drawable.pattern1));
-        models.add(new Model(R.drawable.pattern2));
-        models.add(new Model(R.drawable.pattern3));
 
         displayName = view.findViewById(R.id.display_name);
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
 
         if(user.getDisplayName() != null){
             displayName.setText(user.getDisplayName());
         }
-        adapter = new Adapter(models, view.getContext());
 
         viewPager = view.findViewById(R.id.view_pager);
         viewPager.setAdapter(adapter);
@@ -146,5 +103,37 @@ public class FragmentSlide extends Fragment {
         if(user.getDisplayName() != null){
             displayName.setText(user.getDisplayName());
         }
+        cardListener = db.collection("users").document(user.getUid()).collection("cards").whereEqualTo("tag","all").addSnapshotListener(new EventListener<QuerySnapshot>() {
+
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    progList.setVisibility(View.INVISIBLE);
+                    Log.w(TAG, "Listen failed.", error);
+                    return;
+                }
+
+                progList.setVisibility(View.VISIBLE);
+                Log.d(TAG, "Number of Cards: "+ value.size());
+                for(QueryDocumentSnapshot doc: value){
+                    Random rand = new Random();
+                    int randomImage = imageIDs.get(rand.nextInt(imageIDs.size()));
+
+                    model = new Model(randomImage, doc.get("cardnumber").toString(), doc.get("cardname").toString(), doc.get("barcode").toString(), doc.get("barcodeType").toString());
+                    boolean duplicate = false;
+                    for(Model a_model : models){
+                        if(a_model.getCardname() == model.getCardname() && a_model.getCardnumber() == model.getCardnumber()){
+                            duplicate = true;
+                        }
+                    }
+                    if(duplicate == false){
+                        models.add(model);
+                        adapter = new Adapter(models, view.getContext());
+                    }
+                }
+                progList.setVisibility(View.INVISIBLE);
+
+            }
+        });
     }
 }
