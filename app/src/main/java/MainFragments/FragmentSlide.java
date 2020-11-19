@@ -58,12 +58,15 @@ public class FragmentSlide extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        final View view =  inflater.inflate((R.layout.fragment_slide),container,false);
+         view =  inflater.inflate((R.layout.fragment_slide),container,false);
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         user = auth.getCurrentUser();
         imageIDs = new ArrayList<>();
-
+        models=new ArrayList<>();
+        imageIDs.add(R.drawable.pattern1);
+        imageIDs.add(R.drawable.pattern2);
+        imageIDs.add(R.drawable.pattern3);
         progList = view.findViewById(R.id.progress_list);
         progList.setVisibility(View.VISIBLE);
 
@@ -75,7 +78,7 @@ public class FragmentSlide extends Fragment {
         }
 
         viewPager = view.findViewById(R.id.view_pager);
-        viewPager.setAdapter(adapter);
+
         viewPager.setPadding(130, 0,130,0);
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -119,7 +122,7 @@ public class FragmentSlide extends Fragment {
                     Random rand = new Random();
                     int randomImage = imageIDs.get(rand.nextInt(imageIDs.size()));
 
-                    model = new Model(randomImage, doc.get("cardnumber").toString(), doc.get("cardname").toString(), doc.get("barcode").toString(), doc.get("barcodeType").toString());
+                    model = new Model(randomImage, doc.get("cardname").toString(), doc.get("cardnumber").toString(), doc.get("Data").toString(), doc.get("BarcodeType").toString());
                     boolean duplicate = false;
                     for(Model a_model : models){
                         if(a_model.getCardname() == model.getCardname() && a_model.getCardnumber() == model.getCardnumber()){
@@ -129,6 +132,7 @@ public class FragmentSlide extends Fragment {
                     if(duplicate == false){
                         models.add(model);
                         adapter = new Adapter(models, view.getContext());
+                        viewPager.setAdapter(adapter);
                     }
                 }
                 progList.setVisibility(View.INVISIBLE);

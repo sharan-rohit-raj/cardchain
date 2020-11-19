@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/CardName"
@@ -12,7 +12,8 @@
         android:layout_alignParentEnd="false"
         android:layout_alignParentStart="false"
         android:layout_alignStart="@id/Card"
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="0dp"
         android:text="Tim Hortons"
         android:textSize="18sp" />
 
@@ -36,12 +37,24 @@
                 android:id="@+id/card_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:layout_centerInParent="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/pattern1">
 
             </ImageButton>
+
+            <TextView
+                android:id="@+id/slide_card_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="76dp"
+                android:shadowColor="#1B1919"
+                android:text="TextView"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
 
         </RelativeLayout>
 
