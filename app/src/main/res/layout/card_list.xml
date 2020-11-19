@@ -26,7 +26,7 @@
                 tools:layout_editor_absoluteY="-29dp" />
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/card_num_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
@@ -41,7 +41,7 @@
                 app:layout_constraintVertical_bias="0.789" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/card_name_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -68,7 +68,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.46"
-                app:layout_constraintStart_toEndOf="@+id/textView10"
+                app:layout_constraintStart_toEndOf="@+id/card_name_desc"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.239" />
 
