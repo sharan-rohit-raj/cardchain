@@ -81,6 +81,8 @@ public class CardListAdapter extends BaseAdapter {
                 }else{
                     currModel.toggleCard();
                     imageView.setImageResource(currModel.getImageID());
+                    imageBlur = new ImageBlur(imageView.getContext());
+                    imageBlur.makeBlur(imageView);
                     cardName.setVisibility(View.VISIBLE);
                     cardNumber.setVisibility(View.VISIBLE);
                     cardNameDesc.setVisibility(View.VISIBLE);

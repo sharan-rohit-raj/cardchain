@@ -84,6 +84,8 @@ public class Adapter extends PagerAdapter {
 
                     curModel.toggle();
                     imageButton.setImageResource(curModel.getImage());
+                    imageBlur = new ImageBlur(imageButton.getContext());
+                    imageBlur.makeBlur(imageButton);
                     imageButton.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
                     cardNumTxt.setVisibility(View.VISIBLE);
                 }
