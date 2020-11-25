@@ -132,7 +132,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
-    public void returnToWelcomeFunc(View view) {
-        this.onBackPressed();
-    }
+//    public void returnToWelcomeFunc(View view) {
+//        this.onBackPressed();
+//    }
 }

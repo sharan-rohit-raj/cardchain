@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/profile"
+    <item android:id="@+id/profile_menu"
         android:icon="@drawable/ic_drawer_profile"
         android:title="@string/profile" />
+    <item android:id="@+id/delete_acc_menu"
+        android:icon="@drawable/ic_menu_delacc"
+        android:title="@string/delete_acc" />
+    <item android:id="@+id/about_us"
+        android:icon="@drawable/ic_menu_about"
+        android:title="@string/about" />
 </menu>

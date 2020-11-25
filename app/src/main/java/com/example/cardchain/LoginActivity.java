@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sharedPref;
     private static final int HOME_LOGIN_SIGNAL = 10;
     private static final String TAG  = "LoginActivity";
-    private Button login;
+    private Button login, signup;
     private ProgressBar loginProg;
     private EditText emailField;
     private EditText passField;
@@ -42,9 +42,18 @@ public class LoginActivity extends AppCompatActivity {
         loginProg = findViewById(R.id.loginProgress);
         emailField = findViewById(R.id.forgEmail);
         passField = findViewById(R.id.logPass);
+        signup = findViewById(R.id.login_signup_btn);
         final Validation validation = new Validation();
         final AuthenticationHandler authHandle = new AuthenticationHandler();
         emailField.setText(emailValue);
+
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,9 +113,9 @@ public class LoginActivity extends AppCompatActivity {
         Intent forgotPass = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
         startActivity(forgotPass);
     }
-    public void returnToWelcomeFunc(View view) {
-        this.onBackPressed();
-    }
+//    public void returnToWelcomeFunc(View view) {
+//        this.onBackPressed();
+//    }
     @Override
     public void onBackPressed()
     {

@@ -105,20 +105,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.778" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="71dp"
-        android:layout_height="59dp"
-        android:background="@drawable/transp_button"
-        android:onClick="returnToWelcomeFunc"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023"
-        app:srcCompat="@drawable/left_arrow" />
-
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="wrap_content"

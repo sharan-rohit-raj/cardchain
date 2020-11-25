@@ -2,14 +2,17 @@ package com.example.cardchain;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -51,18 +54,54 @@ public class Adapter extends PagerAdapter {
     public Object instantiateItem(@NonNull final ViewGroup container, final int position) {
         layoutInflater = LayoutInflater.from(context);
         final View view = layoutInflater.inflate(R.layout.item, container, false);
-        final ImageView imageButton = view.findViewById(R.id.card_img);
+        final ImageButton imageButton = view.findViewById(R.id.card_img);
+        final ImageView barCodeImage = view.findViewById(R.id.barcodeImg);
+        barCodeImage.setVisibility(View.INVISIBLE);
         final TextView cardNameTxt = view.findViewById(R.id.CardName);
+        final TextView cardOwnerName = view.findViewById(R.id.card_hold_name);
         final TextView cardNumTxt = view.findViewById((R.id.slide_card_num));
+        final TextView cardHoldTitle = view.findViewById(R.id.card_hold_title);
+        final Button deleteCard = view.findViewById(R.id.delete_card_slide);
+        deleteCard.setVisibility(View.INVISIBLE);
         final Model curModel=models.get(position);
         imageButton.setImageResource(curModel.getImage());
         imageBlur = new ImageBlur(imageButton.getContext());
         imageBlur.makeBlur(imageButton);
         cardNameTxt.setText(curModel.getCardname());
         cardNumTxt.setText(curModel.getCardnumber());
+        cardOwnerName.setText(curModel.getCardHoldName());
+
+        imageButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                //Make delete button Visible
+                deleteCard.setVisibility(View.VISIBLE);
+                //Make all other view invisible
+                barCodeImage.setVisibility(View.INVISIBLE);
+                cardHoldTitle.setVisibility(View.INVISIBLE);
+                cardNumTxt.setVisibility(View.INVISIBLE);
+                cardNameTxt.setVisibility(View.INVISIBLE);
+                cardOwnerName.setVisibility(View.INVISIBLE);
+                cardHoldTitle.setVisibility(View.INVISIBLE);
+                Log.i("Adapter","Long Click");
+
+                //TODO:Add firebase delete
+                deleteCard.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.i("Adapter","Delete Button clicked");
+                    }
+                });
+                return true;
+            }
+        });
+
+
+
         imageButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                deleteCard.setVisibility(View.INVISIBLE);
                 if (!curModel.isShowingCode()) {
                     curModel.toggle();
 
@@ -72,28 +111,35 @@ public class Adapter extends PagerAdapter {
                         bitMatrix = multiFormatWriter.encode(curModel.getBarcode(), BarcodeFormat.valueOf(curModel.getBarcodeType()), 1000, 400);
                         BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
                         Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-                        imageButton.setImageBitmap(bitmap);
-                        LayoutParams layout=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-                        layout.addRule(RelativeLayout.CENTER_IN_PARENT);
-                        imageButton.setLayoutParams(layout);
+                        barCodeImage.setVisibility(View.VISIBLE);
+                        barCodeImage.setImageBitmap(bitmap);
+//                        imageButton.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
                         cardNumTxt.setVisibility(View.INVISIBLE);
+                        cardNameTxt.setVisibility(View.INVISIBLE);
+                        cardOwnerName.setVisibility(View.INVISIBLE);
+                        cardHoldTitle.setVisibility(View.INVISIBLE);
                     } catch (WriterException e) {
                         e.printStackTrace();
                     }
                 }else{
 
                     curModel.toggle();
-                    imageButton.setImageResource(curModel.getImage());
-                    imageBlur = new ImageBlur(imageButton.getContext());
-                    imageBlur.makeBlur(imageButton);
-                    imageButton.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
+//                    imageButton.setImageResource(curModel.getImage());
+//                    imageBlur = new ImageBlur(imageButton.getContext());
+//                    imageBlur.makeBlur(imageButton);
+//                    imageButton.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
+                    barCodeImage.setVisibility(View.INVISIBLE);
                     cardNumTxt.setVisibility(View.VISIBLE);
+                    cardNameTxt.setVisibility(View.VISIBLE);
+                    cardOwnerName.setVisibility(View.VISIBLE);
+                    cardHoldTitle.setVisibility(View.VISIBLE);
                 }
             }
         });
         container.addView(view, 0);
         return view;
     }
+
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {

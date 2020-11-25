@@ -35,5 +35,8 @@
     <string name="ph_no">Numéro de téléphone</string>
     <string name="hello">Bonjour,</string>
     <string name="user">Utilisateur</string>
+    <string name="delete_acc">Supprimer le compte</string>
+    <string name="about">Compte</string>
+    <string name="delete_card">Supprimer la carte</string>
 
 </resources>

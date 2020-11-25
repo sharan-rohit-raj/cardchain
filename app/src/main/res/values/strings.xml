@@ -34,4 +34,7 @@
     <string name="ph_no">Phone Number</string>
     <string name="hello">Hello,</string>
     <string name="user">User</string>
+    <string name="delete_acc">Delete Account</string>
+    <string name="about">About</string>
+    <string name="delete_card">Delete Card</string>
 </resources>

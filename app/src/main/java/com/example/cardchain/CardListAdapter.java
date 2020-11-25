@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,6 +55,8 @@ public class CardListAdapter extends BaseAdapter {
         final ListCardModel currModel = listCardModels.get(i);
         final TextView cardNameDesc = view.findViewById(R.id.card_name_desc);
         final TextView cardNumDesc = view.findViewById(R.id.card_num_desc);
+        final Button deleteCardBtn = view.findViewById(R.id.delete_card_list);
+        deleteCardBtn.setVisibility(View.INVISIBLE);
         imageView.setImageResource(currModel.getImageID());
         imageBlur = new ImageBlur(imageView.getContext());
         imageBlur.makeBlur(imageView);
@@ -67,10 +70,30 @@ public class CardListAdapter extends BaseAdapter {
         } catch (WriterException e) {
             e.printStackTrace();
         }
+
+        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+//                imageView.setVisibility(View.INVISIBLE);
+                cardName.setVisibility(View.INVISIBLE);
+                cardNumber.setVisibility(View.INVISIBLE);
+                cardNameDesc.setVisibility(View.INVISIBLE);
+                cardNumDesc.setVisibility(View.INVISIBLE);
+                deleteCardBtn.setVisibility(View.VISIBLE);
+                deleteCardBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //TODO: Firebase delete card
+                    }
+                });
+                return true;
+            }
+        });
         final Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                deleteCardBtn.setVisibility(View.INVISIBLE);
                 if (!currModel.isShowingCode()) {
                     currModel.toggleCard();
                     imageView.setImageBitmap(bitmap);

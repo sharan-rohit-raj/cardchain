@@ -5,6 +5,16 @@ public class Model {
     private boolean showingCode=false;
     private String cardname;
     private String cardnumber;
+
+    public String getCardHoldName() {
+        return cardHoldName;
+    }
+
+    public void setCardHoldName(String cardHoldName) {
+        this.cardHoldName = cardHoldName;
+    }
+
+    private String cardHoldName;
     private String barcode;
     private String barcodeType;
 
@@ -56,12 +66,13 @@ public class Model {
 
     public void toggle(){this.showingCode=!this.showingCode;}
 
-    public Model(int image, String cardname, String cardnumber, String barcode, String barcodeType){
+    public Model(int image, String cardHoldName, String cardname, String cardnumber, String barcode, String barcodeType){
 
         this.image = image;
         this.cardname = cardname;
         this.cardnumber = cardnumber;
         this.barcode = barcode;
+        this.cardHoldName = cardHoldName;
         this.barcodeType = barcodeType;
     }
 }

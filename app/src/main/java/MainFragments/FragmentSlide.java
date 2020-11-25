@@ -2,6 +2,7 @@ package MainFragments;
 
 import android.animation.ArgbEvaluator;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,6 +23,7 @@ import com.example.cardchain.Adapter;
 import com.example.cardchain.ListCardModel;
 import com.example.cardchain.Model;
 import com.example.cardchain.R;
+import com.example.cardchain.ViewPagerZoomAnim;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -80,6 +82,8 @@ public class FragmentSlide extends Fragment {
         viewPager = view.findViewById(R.id.view_pager);
 
         viewPager.setPadding(130, 0,130,0);
+        viewPager.setPageMargin(dpToPx(20));
+        viewPager.setPageTransformer(true, new ViewPagerZoomAnim());
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -89,7 +93,7 @@ public class FragmentSlide extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                Toast.makeText(view.getContext(), "Page: "+ (position+1), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(view.getContext(), "Page: "+ (position+1), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -98,6 +102,11 @@ public class FragmentSlide extends Fragment {
             }
         });
         return view;
+    }
+
+    private int dpToPx(int dp) {
+        DisplayMetrics displayMetrics = getActivity().getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
     @Override
@@ -122,7 +131,7 @@ public class FragmentSlide extends Fragment {
                     Random rand = new Random();
                     int randomImage = imageIDs.get(rand.nextInt(imageIDs.size()));
 
-                    model = new Model(randomImage, doc.get("cardname").toString(), doc.get("cardnumber").toString(), doc.get("Data").toString(), doc.get("BarcodeType").toString());
+                    model = new Model(randomImage,doc.get("cardholder").toString(), doc.get("cardname").toString(), doc.get("cardnumber").toString(), doc.get("Data").toString(), doc.get("BarcodeType").toString());
                     boolean duplicate = false;
                     for(Model a_model : models){
                         if(a_model.getCardname() == model.getCardname() && a_model.getCardnumber() == model.getCardnumber()){
