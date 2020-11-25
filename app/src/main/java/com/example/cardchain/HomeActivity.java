@@ -87,8 +87,8 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.profile_menu:
-                        Intent intent = new Intent(HomeActivity.this, EditProfile.class);
-                        startActivity(intent);
+                        Intent editProfIntent = new Intent(HomeActivity.this, EditProfile.class);
+                        startActivity(editProfIntent);
                         return true;
                     case R.id.delete_acc_menu:
                         Toast.makeText(HomeActivity.this, "Delete Account", Toast.LENGTH_SHORT).show();
@@ -96,6 +96,9 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
                     case R.id.about_us:
                         Toast.makeText(HomeActivity.this, "About", Toast.LENGTH_SHORT).show();
                         return true;
+                    case R.id.contact_us_drawer:
+                        Intent contactIntent = new Intent(HomeActivity.this, ContactUs.class);
+                        startActivity(contactIntent);
                     default:
                         return false;
                 }

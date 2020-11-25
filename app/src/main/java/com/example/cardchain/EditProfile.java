@@ -137,7 +137,7 @@ public class EditProfile extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                EditProfile.this.onBackPressed();
             }
         });
 
@@ -194,6 +194,14 @@ public class EditProfile extends AppCompatActivity {
         initialProgBar.setVisibility(View.VISIBLE);
         fillFields();
         initialProgBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left,
+                R.anim.slide_out_right);
     }
 
     public void saveData(EditProfileModel editProfileModel){

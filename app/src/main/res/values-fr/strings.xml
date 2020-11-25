@@ -38,5 +38,6 @@
     <string name="delete_acc">Supprimer le compte</string>
     <string name="about">Compte</string>
     <string name="delete_card">Supprimer la carte</string>
-
+    <string name="contact_us">Nous contacter</string>
+    <string name="contact_us_desc">Nous serions ravis de recevoir vos commentaires.</string>
 </resources>

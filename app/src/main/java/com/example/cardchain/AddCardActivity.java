@@ -142,9 +142,17 @@ public class AddCardActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                AddCardActivity.this.onBackPressed();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left,
+                R.anim.slide_out_right);
     }
 
     @Override
