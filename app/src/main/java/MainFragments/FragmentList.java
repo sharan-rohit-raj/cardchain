@@ -15,12 +15,15 @@ import androidx.fragment.app.Fragment;
 import com.example.cardchain.CardListAdapter;
 import com.example.cardchain.ListCardModel;
 import com.example.cardchain.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -94,14 +97,34 @@ public class FragmentList extends Fragment {
                     }
                     if(duplicate == false){
                         cardModels.add(cardModel);
-                        cardListAdapter = new CardListAdapter(view.getContext(), cardModels);
-                        cardListView.setAdapter(cardListAdapter);
+
                     }
                 }
+                cardListAdapter = new CardListAdapter(view.getContext(), cardModels,FragmentList.this);
+                cardListView.setAdapter(cardListAdapter);
                 progList.setVisibility(View.INVISIBLE);
 
             }
         });
+    }
+    public boolean deleteCard(String cardNum,final String cardName){
+        Log.i("FragmentList","Delete Card");
+        Query docu = db.collection("users").document(user.getUid()).collection("cards").whereEqualTo("cardnumber",cardNum).whereEqualTo("cardname",cardName);
+        docu.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                document.getReference().delete();
+                                Log.i("FragmentSlide","Deleting Card: "+cardName);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+        return true;
     }
 
     @Override

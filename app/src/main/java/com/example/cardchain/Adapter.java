@@ -24,6 +24,7 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
+import MainFragments.FragmentSlide;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
@@ -34,10 +35,11 @@ public class Adapter extends PagerAdapter {
     private LayoutInflater layoutInflater;
     private Context context;
     ImageBlur imageBlur;
-    public Adapter(List<Model> models, Context context){
+    FragmentSlide parent;
+    public Adapter(List<Model> models, Context context, FragmentSlide parent){
         this.models = models;
         this.context = context;
-
+        this.parent=parent;
     }
     @Override
     public int getCount() {
@@ -85,11 +87,12 @@ public class Adapter extends PagerAdapter {
                 cardHoldTitle.setVisibility(View.INVISIBLE);
                 Log.i("Adapter","Long Click");
 
-                //TODO:Add firebase delete
                 deleteCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Log.i("Adapter","Delete Button clicked");
+                        parent.deleteCard(curModel.getCardnumber(),curModel.getCardname(),position);
+
                     }
                 });
                 return true;
@@ -107,7 +110,6 @@ public class Adapter extends PagerAdapter {
 
                     BitMatrix bitMatrix = null;
                     try {
-                        //TODO Retrieve barcode images and assign a barcode to each model so that this can be models.get(position).barcode
                         bitMatrix = multiFormatWriter.encode(curModel.getBarcode(), BarcodeFormat.valueOf(curModel.getBarcodeType()), 1000, 400);
                         BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
                         Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
@@ -144,5 +146,9 @@ public class Adapter extends PagerAdapter {
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View)object);
+    }
+    @Override public int getItemPosition(Object itemIdentifier) {
+        int index = models.indexOf(itemIdentifier);
+        return index == -1 ? POSITION_NONE : index;
     }
 }

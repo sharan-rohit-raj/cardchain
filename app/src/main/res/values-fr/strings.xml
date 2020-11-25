@@ -40,4 +40,5 @@
     <string name="delete_card">Supprimer la carte</string>
     <string name="contact_us">Nous contacter</string>
     <string name="contact_us_desc">Nous serions ravis de recevoir vos commentaires.</string>
+    <string name="delete_acc_msg">Are you sure, you want to delete your account?</string>
 </resources>

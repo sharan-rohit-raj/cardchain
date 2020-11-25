@@ -2,6 +2,7 @@ package com.example.cardchain;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -17,15 +18,18 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.util.ArrayList;
 
+import MainFragments.FragmentList;
+
 public class CardListAdapter extends BaseAdapter {
     private MultiFormatWriter multiFormatWriter= new MultiFormatWriter();
-
+    FragmentList parent;
     private Context context;
     private ArrayList<ListCardModel> listCardModels;
     ImageBlur imageBlur;
-    public CardListAdapter(Context context, ArrayList<ListCardModel> listCardModels) {
+    public CardListAdapter(Context context, ArrayList<ListCardModel> listCardModels, FragmentList parent) {
         this.context = context;
         this.listCardModels = listCardModels;
+        this.parent=parent;
     }
 
 
@@ -45,7 +49,7 @@ public class CardListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         if(view == null){
             view = View.inflate(context, R.layout.card_list, null);
         }
@@ -83,7 +87,7 @@ public class CardListAdapter extends BaseAdapter {
                 deleteCardBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //TODO: Firebase delete card
+                        parent.deleteCard(currModel.getCardnumber(),currModel.getCardname());
                     }
                 });
                 return true;

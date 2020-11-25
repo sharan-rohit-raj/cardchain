@@ -40,4 +40,7 @@
     <string name="contact_us">Contact Us</string>
     <string name="contact_us_desc">We\'d love to here feedback from you.</string>
     <string name="empty_msg_box">Cannot leave message box empty</string>
+    <string name="delete_acc_msg">Enter Password to Delete Account</string>
+    <string name="Confirm">Confirm</string>
+    <string name="Cancel">Cancel</string>
 </resources>

@@ -40,7 +40,7 @@ public class ContactUs extends AppCompatActivity {
     public void sendEmail(View view) {
         if(emailMsg.getText().toString().equals("") == false){
             Intent emailIntent = new Intent(Intent.ACTION_SEND);
-            String[] recipients = {"srrnatar@gmail.com"};
+            String[] recipients = {"bknarfk@gmail.com","srrnatar@gmail.com"};
             emailIntent.putExtra(Intent.EXTRA_EMAIL, recipients);
             String cust_name = (user != null && user.getDisplayName() != null) ? user.getDisplayName() : "User";
             emailIntent.putExtra(Intent.EXTRA_SUBJECT,"Feedback from CardChain customer: "+cust_name);

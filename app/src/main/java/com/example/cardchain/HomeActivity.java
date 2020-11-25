@@ -9,22 +9,32 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import MainFragments.FragmentList;
 import MainFragments.FragmentSlide;
@@ -35,6 +45,7 @@ import kotlin.jvm.functions.Function1;
 public class HomeActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
     FirebaseAuth auth;
     FirebaseUser user;
+    FirebaseFirestore db;
     ImageButton logoutBtn;
     private Toolbar toolBar;
     ActionBarDrawerToggle drawerToggle;
@@ -56,6 +67,7 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
         HomeAct = this;
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
         toolBar = findViewById(R.id.tool_inc);
         meowNav = findViewById(R.id.bottom_nav);
         logoutBtn = toolBar.findViewById(R.id.log_out);
@@ -91,7 +103,7 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
                         startActivity(editProfIntent);
                         return true;
                     case R.id.delete_acc_menu:
-                        Toast.makeText(HomeActivity.this, "Delete Account", Toast.LENGTH_SHORT).show();
+                        deleteFirebaseAccount();
                         return true;
                     case R.id.about_us:
                         Toast.makeText(HomeActivity.this, "About", Toast.LENGTH_SHORT).show();
@@ -168,7 +180,70 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     }
 
-        @Override
+    private void deleteFirebaseAccount() {
+        final Dialog dialog = new Dialog(HomeActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.reauthenticate);
+        Button dialog_button = dialog.findViewById(R.id.confirm_btn);
+        Button dialog_cancel = dialog.findViewById(R.id.cancel_Btn);
+        final EditText passTxt = dialog.findViewById(R.id.passField);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String password = passTxt.getText().toString();
+                if (password.equals("")) {
+                    Toast.makeText(HomeActivity.this, "Password Is Blank", Toast.LENGTH_SHORT).show();
+                }else{
+                    AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), password);
+                    user.reauthenticate(credential).
+
+                            addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("HomeActivity", "User re-authenticated.");
+                                        deleteAllCards();
+                                        db.collection("users").document(user.getUid()).delete();
+                                        user.delete();
+                                    } else {
+                                        Toast.makeText(HomeActivity.this, "WRong PAssword", Toast.LENGTH_SHORT).show();
+                                        Log.d("HomeActivity", "Wrong Password");
+                                    }
+                                }
+                            });
+                }
+            }
+        });
+        dialog_cancel.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+                dialog.show();
+
+    }
+    public boolean deleteAllCards(){
+        Log.i("HomeActivity","Delete Card");
+        Query docu = db.collection("users").document(user.getUid()).collection("cards").whereEqualTo("tag","all");
+        docu.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.i("HomeActivity","Deleting Card ");
+                                document.getReference().delete();
+                            }
+                        } else {
+                            Log.d("HomeActivity", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+        return true;
+    }
+    @Override
     protected void onStart() {
         super.onStart();
         FirebaseAuth.getInstance().addAuthStateListener(this);
