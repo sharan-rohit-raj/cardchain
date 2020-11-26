@@ -220,7 +220,7 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
                                         db.collection("users").document(user.getUid()).delete();
                                         user.delete();
                                     } else {
-                                        Toast.makeText(HomeActivity.this, "WRong PAssword", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(HomeActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
                                         Log.d("HomeActivity", "Wrong Password");
                                     }
                                 }

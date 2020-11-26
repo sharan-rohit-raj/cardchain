@@ -107,7 +107,7 @@ public class FragmentList extends Fragment {
             }
         });
     }
-    public boolean deleteCard(String cardNum,final String cardName){
+    public boolean deleteCard(String cardNum,final String cardName,final int position){
         Log.i("FragmentList","Delete Card");
         Query docu = db.collection("users").document(user.getUid()).collection("cards").whereEqualTo("cardnumber",cardNum).whereEqualTo("cardname",cardName);
         docu.get()
@@ -117,6 +117,8 @@ public class FragmentList extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 document.getReference().delete();
+                                cardModels.remove(position);
+                                cardListAdapter.notifyDataSetChanged();
                                 Log.i("FragmentSlide","Deleting Card: "+cardName);
                             }
                         } else {

@@ -87,7 +87,7 @@ public class CardListAdapter extends BaseAdapter {
                 deleteCardBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        parent.deleteCard(currModel.getCardnumber(),currModel.getCardname());
+                        parent.deleteCard(currModel.getCardnumber(),currModel.getCardname(),i);
                     }
                 });
                 return true;
