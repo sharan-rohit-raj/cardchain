@@ -101,6 +101,11 @@ public class CardListAdapter extends BaseAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                deleteCardBtn.setVisibility(View.INVISIBLE);
+                cardName.setVisibility(View.VISIBLE);
+                cardNumber.setVisibility(View.VISIBLE);
+                cardNameDesc.setVisibility(View.VISIBLE);
+                cardNumDesc.setVisibility(View.VISIBLE);
                 parent.cardDialog(currModel, bitmap);
 //                deleteCardBtn.setVisibility(View.INVISIBLE);
 //                if (!currModel.isShowingCode()) {
