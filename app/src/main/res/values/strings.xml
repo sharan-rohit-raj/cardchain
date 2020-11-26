@@ -38,7 +38,7 @@
     <string name="about">About</string>
     <string name="delete_card">Delete Card</string>
     <string name="contact_us">Contact Us</string>
-    <string name="contact_us_desc">We\'d love to here feedback from you</string>
+    <string name="contact_us_desc">We\'d love to hear feedback from you</string>
     <string name="empty_msg_box">Cannot leave message box empty</string>
     <string name="next">Next</string>
     <string name="prev">Previous</string>

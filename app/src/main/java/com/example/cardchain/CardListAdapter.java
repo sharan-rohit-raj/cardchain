@@ -1,15 +1,19 @@
 package com.example.cardchain;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -97,28 +101,30 @@ public class CardListAdapter extends BaseAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteCardBtn.setVisibility(View.INVISIBLE);
-                if (!currModel.isShowingCode()) {
-                    currModel.toggleCard();
-                    imageView.setImageBitmap(bitmap);
-                    cardName.setVisibility(View.INVISIBLE);
-                    cardNumber.setVisibility(View.INVISIBLE);
-                    cardNameDesc.setVisibility(View.INVISIBLE);
-                    cardNumDesc.setVisibility(View.INVISIBLE);
-                }else{
-                    currModel.toggleCard();
-                    imageView.setImageResource(currModel.getImageID());
-                    imageBlur = new ImageBlur(imageView.getContext());
-                    imageBlur.makeBlur(imageView);
-                    cardName.setVisibility(View.VISIBLE);
-                    cardNumber.setVisibility(View.VISIBLE);
-                    cardNameDesc.setVisibility(View.VISIBLE);
-                    cardNumDesc.setVisibility(View.VISIBLE);
-                }
+                parent.cardDialog(currModel, bitmap);
+//                deleteCardBtn.setVisibility(View.INVISIBLE);
+//                if (!currModel.isShowingCode()) {
+//                    currModel.toggleCard();
+//                    imageView.setImageBitmap(bitmap);
+//                    cardName.setVisibility(View.INVISIBLE);
+//                    cardNumber.setVisibility(View.INVISIBLE);
+//                    cardNameDesc.setVisibility(View.INVISIBLE);
+//                    cardNumDesc.setVisibility(View.INVISIBLE);
+//                }else{
+//                    currModel.toggleCard();
+//                    imageView.setImageResource(currModel.getImageID());
+//                    imageBlur = new ImageBlur(imageView.getContext());
+//                    imageBlur.makeBlur(imageView);
+//                    cardName.setVisibility(View.VISIBLE);
+//                    cardNumber.setVisibility(View.VISIBLE);
+//                    cardNameDesc.setVisibility(View.VISIBLE);
+//                    cardNumDesc.setVisibility(View.VISIBLE);
+//                }
             }
         });
 
 
         return view;
     }
+
 }
