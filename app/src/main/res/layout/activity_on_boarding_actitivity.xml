@@ -11,8 +11,9 @@
         android:id="@+id/linear_dots"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_below="@+id/onboarding_slides"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
         android:orientation="horizontal"></LinearLayout>
 
     <androidx.viewpager.widget.ViewPager

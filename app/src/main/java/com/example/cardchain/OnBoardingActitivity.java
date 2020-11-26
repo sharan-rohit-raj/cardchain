@@ -64,11 +64,11 @@ public class OnBoardingActitivity extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBoardingSlides.setCurrentItem(currPage + 1);
                 if(mDots.length-1 == currPage){
                     OnBoardingActitivity.this.setResult(11);
                     finish();
                 }
+                onBoardingSlides.setCurrentItem(currPage + 1);
             }
         });
 
