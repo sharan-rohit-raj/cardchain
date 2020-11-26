@@ -27,7 +27,7 @@
     <string name="profile">Profil</string>
     <string name="open">Ouvert</string>
     <string name="close">Fermer</string>
-    <string name="edit_profile">Editer le profil</string>
+    <string name="edit_profile">Profil</string>
     <string name="male">Mâle</string>
     <string name="female">Femelle</string>
     <string name="first_name">Prénom</string>
@@ -39,6 +39,19 @@
     <string name="about">Compte</string>
     <string name="delete_card">Supprimer la carte</string>
     <string name="contact_us">Nous contacter</string>
-    <string name="contact_us_desc">Nous serions ravis de recevoir vos commentaires.</string>
-    <string name="delete_acc_msg">Are you sure, you want to delete your account?</string>
+    <string name="contact_us_desc">Nous serions ravis de recevoir vos commentaires</string>
+    <string name="empty_msg_box">Impossible de laisser la boîte de message vide</string>
+    <string name="next">Prochain</string>
+    <string name="prev">Précédent</string>
+    <string name="begin">Début</string>
+    <string name="skip">Sauter</string>
+    <string name="os_title_1">Bienvenue sur CardChain</string>
+    <string name="os_desc_1">CardChain est un endroit central pour vous permettre d\'accéder à toutes les cartes de fidélité en un seul endroit</string>
+    <string name="os_title_2">Solution parfaite pour les LaidBacks !!!</string>
+    <string name="os_desc_2">Plus de cartes perdues, pas besoin de se souvenir, pas de souci pour les dommages physiques, plus de portefeuilles volumineux</string>
+    <string name="os_title_3">Entrez dans votre monde des cartes de fidélité</string>
+    <string name="os_desc_3">Créez votre profil et ajoutez vos cartes. C\'est aussi simple que 1-2-3!</string>
+    <string name="delete_acc_msg">Êtes-vous sûr de vouloir supprimer votre compte?</string>
+    <string name="Confirm">Confirmer</string>
+    <string name="Cancel">Annuler</string>
 </resources>

@@ -7,11 +7,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,11 +62,20 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
     NavigationView navView;
     DrawerLayout drawer_Layout;
     TextView drawerName;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        // Check if we need to display our OnboardingActivity
+        if (!sharedPreferences.getBoolean(
+                OnBoardingActitivity.onBoardingCompleted, false)) {
+            // The user hasn't seen the OnboardingActivity yet, so show it
+            startActivityForResult(new Intent(this, OnBoardingActitivity.class), 11);
+        }
 
         HomeAct = this;
         auth = FirebaseAuth.getInstance();
@@ -273,10 +286,17 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag("CurFrag");
-        if (fragment != null) {
-            fragment.onActivityResult(requestCode, resultCode, intent);
+        if(requestCode == 11 && resultCode == 11){
+            SharedPreferences.Editor sharedPrefEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+            sharedPrefEditor.putBoolean(OnBoardingActitivity.onBoardingCompleted, true);
+            sharedPrefEditor.apply();
+        }else{
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag("CurFrag");
+            if (fragment != null) {
+                fragment.onActivityResult(requestCode, resultCode, intent);
+            }
         }
+
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

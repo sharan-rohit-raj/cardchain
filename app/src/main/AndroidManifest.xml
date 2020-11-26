@@ -9,8 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ContactUs"
-            android:screenOrientation="portrait"></activity>
+        <activity android:name=".OnBoardingActitivity"></activity>
+        <activity
+            android:name=".ContactUs"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".EditProfile"
             android:screenOrientation="portrait" />
