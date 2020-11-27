@@ -10,6 +10,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -28,21 +31,36 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.DecodeHintType;
+import com.google.zxing.LuminanceSource;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.NotFoundException;
+import com.google.zxing.RGBLuminanceSource;
+import com.google.zxing.Result;
+import com.google.zxing.client.android.Intents;
+import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.Random;
 
 public class AddCardActivity extends AppCompatActivity {
     EditText ecardNumber, ecardHoldName, ecardName;
     TextView vcardNumber, vcardName, vcardCompany;
+    Button photoScan;
     ImageView addCardImage;
     Button addCard;
     ImageButton backBtn;
     private static final int CAMERA_PERMISSION_CODE=101;
+    private static final int SCAN_PHOTO=1001;
     FirebaseAuth auth;
     FirebaseFirestore db;
     int cardnumCount;
@@ -193,8 +211,84 @@ public class AddCardActivity extends AppCompatActivity {
                             });
                 }
             }
+        }else if (requestCode == SCAN_PHOTO){
+            Uri selectedImage = data.getData();
+            InputStream imageStream = null;
+            try {
+                //getting the image
+                imageStream = getContentResolver().openInputStream(selectedImage);
+            } catch (FileNotFoundException e) {
+                Toast.makeText(getApplicationContext(), "File not found", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+            //decoding bitmap
+            Bitmap bMap = BitmapFactory.decodeStream(imageStream);
+            int[] intArray = new int[bMap.getWidth() * bMap.getHeight()];
+            // copy pixel data from the Bitmap into the 'intArray' array
+            bMap.getPixels(intArray, 0, bMap.getWidth(), 0, 0, bMap.getWidth(),
+                    bMap.getHeight());
+
+            LuminanceSource source = new RGBLuminanceSource(bMap.getWidth(),
+                    bMap.getHeight(), intArray);
+            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+
+            MultiFormatReader reader = new MultiFormatReader();// use this otherwise
+            // ChecksumException
+            try {
+                Hashtable<DecodeHintType, Object> decodeHints = new Hashtable<DecodeHintType, Object>();
+                decodeHints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
+                decodeHints.put(DecodeHintType.PURE_BARCODE, Boolean.FALSE);
+
+                Result result = reader.decode(bitmap, decodeHints);
+                //*I have created a global string variable by the name of barcode to easily manipulate data across the application*//
+                if (result != null) {
+                    final Activity act = AddCardActivity.this;
+                    String barcodeData = result.getText().toString();
+                    Toast.makeText(act, "Barcode Data Read! :  " + barcodeData, Toast.LENGTH_SHORT).show();
+                    String barcodeType = result.getBarcodeFormat().toString();
+                    Map<String, Object> cardDetails = new HashMap<>();
+                    cardDetails.put("cardholder", ecardHoldName.getText().toString());
+                    cardDetails.put("cardname", ecardName.getText().toString());
+                    if (ecardNumber.getText().toString().equals("")) {
+                        cardDetails.put("cardnumber", barcodeData.substring(0, Math.min(10, barcodeData.length())));
+                    } else {
+                        cardDetails.put("cardnumber", ecardNumber.getText().toString());
+                    }
+                    cardDetails.put("Data", barcodeData);
+                    cardDetails.put("BarcodeType", barcodeType);
+                    cardDetails.put("tag", "all");
+                    db.collection("users").document(auth.getUid()).collection("cards")
+                            .add(cardDetails)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference ref) {
+                                    Toast.makeText(act, "Barcode Uploaded to FireStore", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(act, "Error adding document " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                }
+            } catch( Exception e){
+                Log.i("CARDSCAN","THERE IS MESSAGE");
+                Toast.makeText(AddCardActivity.this,"No Barcode Found, use clearer Image",Toast.LENGTH_SHORT).show();
+
+            }
         }
         finish();
+    }
+    public void ScanPhoto(View view){
+        if (ecardHoldName.getText().toString().equals("") || ecardName.getText().toString().equals("")){
+            Toast.makeText(AddCardActivity.this,"Please Fill Out Holder Name and Card Name",Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Intent photoPic = new Intent(Intent.ACTION_PICK);
+            photoPic.setType("image/*");
+            startActivityForResult(photoPic, SCAN_PHOTO);
+        }
     }
 
     public void AddNewCard(View view) {
