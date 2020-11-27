@@ -66,6 +66,7 @@ public class CardListAdapter extends BaseAdapter {
         final Button deleteCardBtn = view.findViewById(R.id.delete_card_list);
         final Button shareCardBtn = view.findViewById(R.id.share_card_list);
         deleteCardBtn.setVisibility(View.INVISIBLE);
+        shareCardBtn.setVisibility(View.INVISIBLE);
         imageView.setImageResource(currModel.getImageID());
         imageBlur = new ImageBlur(imageView.getContext());
         imageBlur.makeBlur(imageView);

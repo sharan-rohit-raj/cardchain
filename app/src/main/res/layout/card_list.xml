@@ -104,7 +104,7 @@
                 android:id="@+id/share_card_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/dialog_btn_shape"
+                android:background="@drawable/share_btn_shape"
                 android:text="@string/share_card"
                 android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="@+id/card_list_img"
