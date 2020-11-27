@@ -123,7 +123,7 @@ public class Adapter extends PagerAdapter {
             @Override
             public void onClick(View view) {
                 deleteCard.setVisibility(View.INVISIBLE);
-                shareCardBtn.setVisibility(View.VISIBLE);
+                shareCardBtn.setVisibility(View.INVISIBLE);
                 if (!curModel.isShowingCode()) {
                     curModel.toggle();
 
