@@ -64,6 +64,7 @@ public class CardListAdapter extends BaseAdapter {
         final TextView cardNameDesc = view.findViewById(R.id.card_name_desc);
         final TextView cardNumDesc = view.findViewById(R.id.card_num_desc);
         final Button deleteCardBtn = view.findViewById(R.id.delete_card_list);
+        final Button shareCardBtn = view.findViewById(R.id.share_card_list);
         deleteCardBtn.setVisibility(View.INVISIBLE);
         imageView.setImageResource(currModel.getImageID());
         imageBlur = new ImageBlur(imageView.getContext());
@@ -78,7 +79,7 @@ public class CardListAdapter extends BaseAdapter {
         } catch (WriterException e) {
             e.printStackTrace();
         }
-
+        final Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -88,20 +89,28 @@ public class CardListAdapter extends BaseAdapter {
                 cardNameDesc.setVisibility(View.INVISIBLE);
                 cardNumDesc.setVisibility(View.INVISIBLE);
                 deleteCardBtn.setVisibility(View.VISIBLE);
+                shareCardBtn.setVisibility(View.VISIBLE);
                 deleteCardBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         parent.deleteCard(currModel.getCardnumber(),currModel.getCardname(),i);
                     }
                 });
+                shareCardBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        parent.shareCard(bitmap);
+                    }
+                });
                 return true;
             }
         });
-        final Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 deleteCardBtn.setVisibility(View.INVISIBLE);
+                shareCardBtn.setVisibility((View.INVISIBLE));
                 cardName.setVisibility(View.VISIBLE);
                 cardNumber.setVisibility(View.VISIBLE);
                 cardNameDesc.setVisibility(View.VISIBLE);

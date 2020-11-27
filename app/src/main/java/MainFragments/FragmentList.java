@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,10 +43,15 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class FragmentList extends Fragment {
+    final static int SHARE =99;
     String TAG = "FragmentList";
     FirebaseAuth auth;
     FirebaseUser user;
@@ -145,6 +154,37 @@ public class FragmentList extends Fragment {
                     }
                 });
         return true;
+    }
+    public class ShareCard extends AsyncTask<Bitmap,String,Uri>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+        @Override
+        protected Uri doInBackground(Bitmap... barcode) {
+            String path;
+
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            barcode[0].compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            path = MediaStore.Images.Media.insertImage(getContext().getContentResolver(), barcode[0], "Title", null);
+            return Uri.parse(path);
+        }
+        @Override
+        protected void onPostExecute(Uri bitmapUri) {
+            super.onPostExecute(bitmapUri);
+            Log.i("async", "we here");
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
+            shareIntent.setType("image/jpeg");
+            startActivityForResult(Intent.createChooser(shareIntent,"Choose app to share barcode.."),SHARE);
+        }
+
+    }
+    public void shareCard(final Bitmap barcode){
+        new ShareCard()
+                .execute(barcode);
     }
 
     @Override
