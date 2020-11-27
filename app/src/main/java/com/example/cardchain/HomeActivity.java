@@ -69,6 +69,9 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        WeatherDialog dialog=new WeatherDialog(this);
+        dialog.show();
+        
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         // Check if we need to display our OnboardingActivity
         if (!sharedPreferences.getBoolean(
