@@ -34,6 +34,9 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        WeatherDialog dialog=new WeatherDialog(this);
+        dialog.show();
+
         //Assign UI elements to Java
         signUpButton = findViewById(R.id.forg_btn);
         emailField = findViewById(R.id.forgEmail);
