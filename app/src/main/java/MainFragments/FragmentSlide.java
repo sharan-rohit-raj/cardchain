@@ -163,9 +163,13 @@ public class FragmentSlide extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.i("FragmentSlide","Deleting Card: "+cardName);
-                                models.remove(position);
-                                adapter.notifyDataSetChanged();
-                                document.getReference().delete();
+                                try {
+                                    models.remove(position);
+                                    adapter.notifyDataSetChanged();
+                                    document.getReference().delete();
+                                }catch (IndexOutOfBoundsException e){
+                                    Toast.makeText(getActivity(),"Error Deleting Card, Please try again",Toast.LENGTH_SHORT).show();
+                                }
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
