@@ -4,15 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -39,6 +44,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.zxing.integration.android.IntentIntegrator;
 
 import MainFragments.FragmentList;
 import MainFragments.FragmentSlide;
@@ -47,6 +53,8 @@ import kotlin.jvm.functions.Function1;
 
 
 public class HomeActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
+    final static int STORAGE_PERMISSION_CODE = 1011;
+    private static final int CAMERA_PERMISSION_CODE=101;
     FirebaseAuth auth;
     FirebaseUser user;
     FirebaseFirestore db;
@@ -94,9 +102,9 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
         //Assign the user name to the drawer header
         View header = navView.getHeaderView(0);
         drawerName = header.findViewById(R.id.drawer_name);
-        if(user != null && user.getDisplayName() != null){
+        if (user != null && user.getDisplayName() != null) {
             drawerName.setText(user.getDisplayName());
-        }else{
+        } else {
             drawerName.setText(getString(R.string.user));
         }
 
@@ -113,7 +121,7 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.profile_menu:
                         Intent editProfIntent = new Intent(HomeActivity.this, EditProfile.class);
                         startActivity(editProfIntent);
@@ -140,7 +148,7 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentSlide()).commit();
 
         alreadyCalled = false;
-        if(user == null){
+        if (user == null) {
             finish();
             return;
         }
@@ -148,7 +156,7 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
         meowNav.setOnClickMenuListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
-                Log.d("nav_bar","Model ID: "+model.getId());
+                Log.d("nav_bar", "Model ID: " + model.getId());
                 return null;
             }
         });
@@ -158,7 +166,7 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
                 Fragment select_fragment = null;
-                switch (model.getId()){
+                switch (model.getId()) {
                     case SLIDE_ID:
                         select_fragment = new FragmentSlide();
                         break;
@@ -170,7 +178,7 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
 //                        select_fragment = new FragmentAdd();
 //                        break;
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, select_fragment,"CurFrag").commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, select_fragment, "CurFrag").commit();
                 return null;
             }
         });
@@ -193,8 +201,28 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
         });
 
 
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
+                requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE);
+            }
+        }
     }
+
+
+    private boolean checkPermission(String permission) {
+        int result = ContextCompat.checkSelfPermission(this, permission);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission(String permission, int code) {
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+            ActivityCompat.requestPermissions(this, new String[]{permission}, code);
+        }
+    }
+
+
+
 
     private void deleteFirebaseAccount() {
         final Dialog dialog = new Dialog(HomeActivity.this);
@@ -305,8 +333,10 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Fragment fragment = getSupportFragmentManager().findFragmentByTag("CurFrag");
-        if (fragment != null) {
-            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (fragment != null) {
+                fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
         }
     }
 

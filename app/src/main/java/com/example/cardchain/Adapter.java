@@ -58,6 +58,8 @@ public class Adapter extends PagerAdapter {
         final View view = layoutInflater.inflate(R.layout.item, container, false);
         final ImageButton imageButton = view.findViewById(R.id.card_img);
         final ImageView barCodeImage = view.findViewById(R.id.barcodeImg);
+        final Bitmap bitmap;
+        final Button shareCardBtn = view.findViewById(R.id.share_card_slide);
         barCodeImage.setVisibility(View.INVISIBLE);
         final TextView cardNameTxt = view.findViewById(R.id.CardName);
         final TextView cardOwnerName = view.findViewById(R.id.card_hold_name);
@@ -65,6 +67,7 @@ public class Adapter extends PagerAdapter {
         final TextView cardHoldTitle = view.findViewById(R.id.card_hold_title);
         final Button deleteCard = view.findViewById(R.id.delete_card_slide);
         deleteCard.setVisibility(View.INVISIBLE);
+        shareCardBtn.setVisibility(View.INVISIBLE);
         final Model curModel=models.get(position);
         imageButton.setImageResource(curModel.getImage());
         imageBlur = new ImageBlur(imageButton.getContext());
@@ -72,12 +75,23 @@ public class Adapter extends PagerAdapter {
         cardNameTxt.setText(curModel.getCardname());
         cardNumTxt.setText(curModel.getCardnumber());
         cardOwnerName.setText(curModel.getCardHoldName());
+        BitMatrix bitMatrix = null;
+        try {
 
+            bitMatrix = multiFormatWriter.encode(curModel.getBarcode(), BarcodeFormat.valueOf(curModel.getBarcodeType()), 1000, 400);
+
+
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+        bitmap = barcodeEncoder.createBitmap(bitMatrix);
         imageButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 //Make delete button Visible
                 deleteCard.setVisibility(View.VISIBLE);
+                shareCardBtn.setVisibility(View.VISIBLE);
                 //Make all other view invisible
                 barCodeImage.setVisibility(View.INVISIBLE);
                 cardHoldTitle.setVisibility(View.INVISIBLE);
@@ -95,24 +109,26 @@ public class Adapter extends PagerAdapter {
 
                     }
                 });
+                shareCardBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        parent.shareCard(bitmap);
+                    }
+                });
                 return true;
             }
         });
-
-
 
         imageButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 deleteCard.setVisibility(View.INVISIBLE);
+                shareCardBtn.setVisibility(View.INVISIBLE);
                 if (!curModel.isShowingCode()) {
                     curModel.toggle();
 
-                    BitMatrix bitMatrix = null;
-                    try {
-                        bitMatrix = multiFormatWriter.encode(curModel.getBarcode(), BarcodeFormat.valueOf(curModel.getBarcodeType()), 1000, 400);
-                        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                        Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+
+
                         barCodeImage.setVisibility(View.VISIBLE);
                         barCodeImage.setImageBitmap(bitmap);
 //                        imageButton.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
@@ -120,9 +136,7 @@ public class Adapter extends PagerAdapter {
                         cardNameTxt.setVisibility(View.INVISIBLE);
                         cardOwnerName.setVisibility(View.INVISIBLE);
                         cardHoldTitle.setVisibility(View.INVISIBLE);
-                    } catch (WriterException e) {
-                        e.printStackTrace();
-                    }
+
                 }else{
 
                     curModel.toggle();

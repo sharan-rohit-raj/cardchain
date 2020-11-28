@@ -54,4 +54,5 @@
     <string name="delete_acc_msg">Êtes-vous sûr de vouloir supprimer votre compte?</string>
     <string name="Confirm">Confirmer</string>
     <string name="Cancel">Annuler</string>
+    <string name="share_card">Share Card</string>
 </resources>

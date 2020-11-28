@@ -138,6 +138,21 @@
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="@+id/card_img"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.181"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/card_img" />
+
+        <Button
+            android:id="@+id/share_card_slide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/share_btn_shape"
+            android:fontFamily="@font/roboto"
+            android:text="@string/share_card"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="@+id/card_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.796"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/card_img" />
 

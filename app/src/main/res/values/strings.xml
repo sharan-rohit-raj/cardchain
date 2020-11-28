@@ -53,4 +53,5 @@
     <string name="delete_acc_msg">Enter Password to Delete Account</string>
     <string name="Confirm">Confirm</string>
     <string name="Cancel">Cancel</string>
+    <string name="share_card">Share Card</string>
 </resources>

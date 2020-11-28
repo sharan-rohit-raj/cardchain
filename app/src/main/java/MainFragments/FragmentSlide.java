@@ -1,7 +1,16 @@
 package MainFragments;
 
 import android.animation.ArgbEvaluator;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,11 +46,13 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class FragmentSlide extends Fragment {
+    final static int SHARE =99;
     String TAG = "FragmentSlide";
     ViewPager viewPager;
     Adapter adapter;
@@ -163,9 +174,13 @@ public class FragmentSlide extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.i("FragmentSlide","Deleting Card: "+cardName);
-                                models.remove(position);
-                                adapter.notifyDataSetChanged();
-                                document.getReference().delete();
+                                try {
+                                    models.remove(position);
+                                    adapter.notifyDataSetChanged();
+                                    document.getReference().delete();
+                                }catch (IndexOutOfBoundsException e){
+                                    Toast.makeText(getActivity(),"Error Deleting Card, Please try again",Toast.LENGTH_SHORT).show();
+                                }
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -173,5 +188,47 @@ public class FragmentSlide extends Fragment {
                     }
                 });
         return true;
+    }
+    public class ShareCard extends AsyncTask<Bitmap,String, Uri> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+        @Override
+        protected Uri doInBackground(Bitmap... barcode) {
+            String path;
+            Bitmap shrink = Bitmap.createBitmap(barcode[0].getWidth()+60, barcode[0].getHeight()+20, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(shrink);
+            canvas.drawColor(Color.WHITE, PorterDuff.Mode.LIGHTEN);
+
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            paint.setFilterBitmap(true);
+            paint.setDither(true);
+
+
+            canvas.drawBitmap(barcode[0], 30, 10, paint);
+
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            shrink.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            path = MediaStore.Images.Media.insertImage(getContext().getContentResolver(), shrink, "Title", null);
+            return Uri.parse(path);
+        }
+        @Override
+        protected void onPostExecute(Uri bitmapUri) {
+            super.onPostExecute(bitmapUri);
+            Log.i("async", "we here");
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
+            shareIntent.setType("image/jpeg");
+            startActivityForResult(Intent.createChooser(shareIntent,"Choose app to share barcode.."),SHARE);
+        }
+
+    }
+    public void shareCard(final Bitmap barcode){
+        new ShareCard()
+                .execute(barcode);
     }
 }
