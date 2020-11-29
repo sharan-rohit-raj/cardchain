@@ -1,5 +1,6 @@
 package MainFragments;
 
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,6 +25,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.Constraints;
 import androidx.fragment.app.Fragment;
 
 import com.example.cardchain.CardListAdapter;
@@ -49,6 +52,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class FragmentList extends Fragment {
     final static int SHARE =99;
@@ -223,6 +229,16 @@ public class FragmentList extends Fragment {
                     card_dialog_hold.setVisibility(View.INVISIBLE);
                     card_dialog_num.setVisibility(View.INVISIBLE);
                     card_dialog_hold_desc.setVisibility(View.INVISIBLE);
+                    ConstraintLayout.LayoutParams lay;
+                    if (cardModel.getBarcodeType().equals("QR_CODE")){
+                        float factor = getContext().getResources().getDisplayMetrics().density;
+                        lay = new ConstraintLayout.LayoutParams(MATCH_PARENT,(int)(140*factor));
+                        lay.topToTop = R.id.constraintLayout;
+                        lay.bottomToBottom = R.id.constraintLayout;
+                        lay.verticalBias=(float)0.5;
+                        card_barcode_image.setLayoutParams(lay);
+                    }
+
                     card_barcode_image.setVisibility(View.VISIBLE);
                 }else{
                     cardModel.toggleCard();
@@ -233,7 +249,7 @@ public class FragmentList extends Fragment {
                     card_barcode_image.setVisibility(View.INVISIBLE);
                 }
                 card_barcode_image.setImageBitmap(bitmap);
-                card_barcode_image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                //card_barcode_image.setScaleType(ImageView.ScaleType.CENTER_CROP);
             }
         });
         dialog.show();

@@ -75,7 +75,7 @@ public class CardListAdapter extends BaseAdapter {
         BitMatrix bitMatrix=null;
         BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
         try {
-            bitMatrix = multiFormatWriter.encode(currModel.getBarcode(), BarcodeFormat.valueOf(currModel.getBarcodeType()), 150, 100);
+            bitMatrix = multiFormatWriter.encode(currModel.getBarcode(), BarcodeFormat.valueOf(currModel.getBarcodeType()), 200, 100);
 
         } catch (WriterException e) {
             e.printStackTrace();

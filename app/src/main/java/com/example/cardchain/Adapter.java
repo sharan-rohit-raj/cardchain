@@ -26,7 +26,10 @@ import java.util.List;
 
 import MainFragments.FragmentSlide;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.PagerAdapter;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 
 public class Adapter extends PagerAdapter {
@@ -129,13 +132,25 @@ public class Adapter extends PagerAdapter {
 
 
 
-                        barCodeImage.setVisibility(View.VISIBLE);
-                        barCodeImage.setImageBitmap(bitmap);
+                    barCodeImage.setVisibility(View.VISIBLE);
+
+                    if (curModel.getBarcodeType().equals("QR_CODE")){
+                        float factor = parent.getContext().getResources().getDisplayMetrics().density;
+                        ConstraintLayout.LayoutParams lay = new ConstraintLayout.LayoutParams((int)(500*factor),(int)(500*factor));
+                        lay.topToTop = R.id.constraintLayout;
+                        lay.bottomToBottom = R.id.constraintLayout;
+                        lay.leftToLeft =R.id.constraintLayout;
+                        lay.rightToRight=R.id.constraintLayout;
+                        lay.horizontalBias=(float)0.5;
+                        lay.verticalBias=(float)0.5;
+                        barCodeImage.setLayoutParams(lay);
+                    }
+                    barCodeImage.setImageBitmap(bitmap);
 //                        imageButton.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
-                        cardNumTxt.setVisibility(View.INVISIBLE);
-                        cardNameTxt.setVisibility(View.INVISIBLE);
-                        cardOwnerName.setVisibility(View.INVISIBLE);
-                        cardHoldTitle.setVisibility(View.INVISIBLE);
+                    cardNumTxt.setVisibility(View.INVISIBLE);
+                    cardNameTxt.setVisibility(View.INVISIBLE);
+                    cardOwnerName.setVisibility(View.INVISIBLE);
+                    cardHoldTitle.setVisibility(View.INVISIBLE);
 
                 }else{
 
