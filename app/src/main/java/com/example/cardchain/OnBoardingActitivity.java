@@ -40,9 +40,9 @@ public class OnBoardingActitivity extends AppCompatActivity {
         dotsLayout = findViewById(R.id.linear_dots);
         Context context = this.getApplicationContext();
         onboarding_images = new int[]{
-                R.drawable.welcome_amico,
-                R.drawable.sharing_ideas_pana,
-                R.drawable.launching_amico
+                R.drawable.welcome_amico_small,
+                R.drawable.sharing_ideas_pana_small,
+                R.drawable.launching_amico_small
         };
 
         onboarding_headings = new String[]{

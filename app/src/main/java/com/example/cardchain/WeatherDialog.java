@@ -2,6 +2,8 @@ package com.example.cardchain;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -30,14 +32,14 @@ import java.util.Date;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class WeatherDialog extends Dialog implements android.view.View.OnClickListener {
+public class WeatherDialog extends Dialog{
 
     private TextView greeting;
     private TextView currentWeather;
     private TextView currentTemperature;
     private TextView highLow;
     private ImageView timePic;
-
+    private ConstraintLayout lay;
     protected LocationManager locationManager;
     protected LocationListener locationListener;
 
@@ -55,7 +57,13 @@ public class WeatherDialog extends Dialog implements android.view.View.OnClickLi
         currentTemperature = findViewById(R.id.currentTempreture);
         highLow = findViewById(R.id.highLow);
         timePic = findViewById(R.id.timePic);
-
+        lay= findViewById(R.id.weatherDia);
+        lay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
         Date currentTime = Calendar.getInstance().getTime();
         if (4 <= currentTime.getHours() && currentTime.getHours() < 12) {
             greeting.setText("Good Morning");
@@ -68,12 +76,6 @@ public class WeatherDialog extends Dialog implements android.view.View.OnClickLi
             timePic.setImageResource(R.drawable.evening);
         }
         new GetWeather("waterloo").execute("this will go to background");;
-    }
-
-
-    @Override
-    public void onClick(View view) {
-        dismiss();
     }
 
     class GetWeather extends AsyncTask<String, Integer, String> {
