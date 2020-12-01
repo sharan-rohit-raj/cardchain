@@ -60,10 +60,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(emailField.getText().toString().equals("") || passField.getText().toString().equals("")){
                     Toast.makeText(LoginActivity.this, "Must not leave any field empty !", Toast.LENGTH_SHORT).show();
+                    DialogMessage.display(LoginActivity.this, getString(R.string.dial_wrong_password), DialogMessage.ERROR_MESSAGE_TYPE);
                     return;
                 }
                 else if(validation.emailValidation(emailField.getText().toString().trim()) == false){
-                    Toast.makeText(LoginActivity.this, "Email Id is invalid !", Toast.LENGTH_SHORT).show();
+                    DialogMessage.display(LoginActivity.this, getString(R.string.dial_invalid_email), DialogMessage.ERROR_MESSAGE_TYPE);
+
                     return;
                 }
 

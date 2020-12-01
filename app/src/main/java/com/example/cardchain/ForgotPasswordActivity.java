@@ -59,7 +59,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                             forgProg.setVisibility(View.INVISIBLE);
                             forg_btn.setVisibility(View.VISIBLE);
                             Log.d(TAG, "Email sent.");
-                            successDialog(getString(R.string.forg_dial));
+                            DialogMessage.display(ForgotPasswordActivity.this, getString(R.string.forg_dial), DialogMessage.SUCCESS_MESSAGE_TYPE);
                         }
                         else{
                             forgProg.setVisibility(View.INVISIBLE);
@@ -80,25 +80,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left,
                 R.anim.slide_out_right);
     }
-
-    public void successDialog(String title){
-        final Dialog dialog = new Dialog(ForgotPasswordActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.success_dialog);
-        Button dialog_button = dialog.findViewById(R.id.suc_ok_btn);
-        TextView dialog_text = dialog.findViewById(R.id.suc_dialog_txt);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog_text.setText(title.trim());
-        dialog_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                finish();
-            }
-        });
-        dialog.show();
-    }
-
     public void returnToLoginFunc(View view) {
         this.onBackPressed();
     }

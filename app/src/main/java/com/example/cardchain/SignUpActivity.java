@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,11 +55,12 @@ public class SignUpActivity extends AppCompatActivity {
                     return;
                 }
                 else if(validation.emailValidation(emailField.getText().toString().trim()) == false){
-                    Toast.makeText(SignUpActivity.this, "Email Id is invalid !", Toast.LENGTH_SHORT).show();
+                    DialogMessage.display(SignUpActivity.this, getString(R.string.dial_invalid_email), DialogMessage.ERROR_MESSAGE_TYPE);
+
                     return;
                 }
                 else if(passField.getText().toString().equals(confpassField.getText().toString())== false){
-                    Toast.makeText(SignUpActivity.this, "Passwords don't match !", Toast.LENGTH_SHORT).show();
+                    DialogMessage.display(SignUpActivity.this, getString(R.string.dial_wrong_password), DialogMessage.ERROR_MESSAGE_TYPE);
                     return;
                 }
 
@@ -77,7 +79,7 @@ public class SignUpActivity extends AppCompatActivity {
                             signUpButton.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.INVISIBLE);
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            successDialog(getString(R.string.dial_suc_msg),user);
+                            DialogMessage.display(SignUpActivity.this, getString(R.string.dial_suc_msg), DialogMessage.SUCCESS_MESSAGE_TYPE);
                         }
                         else{
                             // If sign in fails, display a message to the user.
@@ -112,24 +114,7 @@ public class SignUpActivity extends AppCompatActivity {
                 R.anim.slide_out_right);
     }
 
-    public void successDialog(String title, final FirebaseUser user_val){
-        final Dialog dialog = new Dialog(SignUpActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.success_dialog);
-        Button dialog_button = dialog.findViewById(R.id.suc_ok_btn);
-        TextView dialog_text = dialog.findViewById(R.id.suc_dialog_txt);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog_text.setText(title.trim());
-        dialog_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
-                dialog.dismiss();
-                startActivity(intent);
-            }
-        });
-        dialog.show();
-    }
+
 
 
 //    public void returnToWelcomeFunc(View view) {

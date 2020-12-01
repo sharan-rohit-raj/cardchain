@@ -55,4 +55,6 @@
     <string name="Confirm">Confirmer</string>
     <string name="Cancel">Annuler</string>
     <string name="share_card">Share Card</string>
+    <string name="dial_invalid_email">Le courriel est invalide</string>
+    <string name="dial_wrong_password">Email et mot de passe ne correspondent pas</string>
 </resources>

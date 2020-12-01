@@ -54,4 +54,6 @@
     <string name="Confirm">Confirm</string>
     <string name="Cancel">Cancel</string>
     <string name="share_card">Share Card</string>
+    <string name="dial_invalid_email">Email is invalid</string>
+    <string name="dial_wrong_password">Email and password do not match</string>
 </resources>
