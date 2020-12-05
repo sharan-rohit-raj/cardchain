@@ -277,6 +277,8 @@ public class AddCardActivity extends AppCompatActivity {
                                 }
                             }
 
+                            saveCardToFireStore(cardDetails);
+
                         } else {
                             Toast.makeText(AddCardActivity.this,getString(R.string.other_issue),Toast.LENGTH_SHORT).show();
                             Log.d("AddCardActivity", "Error getting documents: ", task.getException());
