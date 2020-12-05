@@ -2,6 +2,7 @@ package com.example.cardchain;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.NetworkInfo;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -180,4 +181,5 @@ public class Adapter extends PagerAdapter {
         int index = models.indexOf(itemIdentifier);
         return index == -1 ? POSITION_NONE : index;
     }
+
 }

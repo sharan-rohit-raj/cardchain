@@ -2,6 +2,7 @@ package com.example.cardchain;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityCompat;
@@ -39,7 +40,7 @@ public class WeatherDialog extends Dialog{
     private TextView currentTemperature;
     private TextView highLow;
     private ImageView timePic;
-    private ConstraintLayout lay;
+    private CardView lay;
     protected LocationManager locationManager;
     protected LocationListener locationListener;
 
@@ -66,13 +67,13 @@ public class WeatherDialog extends Dialog{
         });
         Date currentTime = Calendar.getInstance().getTime();
         if (4 <= currentTime.getHours() && currentTime.getHours() < 12) {
-            greeting.setText("Good Morning");
+            greeting.setText(getContext().getText(R.string.good_mrning));
             timePic.setImageResource(R.drawable.morning);
         } else if (12 <= currentTime.getHours() && currentTime.getHours() < 8) {
-            greeting.setText("Good Afternoon");
+            greeting.setText(getContext().getText(R.string.good_aftrnoon));
             timePic.setImageResource(R.drawable.afternoon);
         } else {
-            greeting.setText("Good Evening");
+            greeting.setText(getContext().getText(R.string.good_evng));
             timePic.setImageResource(R.drawable.evening);
         }
         new GetWeather("waterloo").execute("this will go to background");;
@@ -139,9 +140,9 @@ public class WeatherDialog extends Dialog{
 
         @Override
         protected void onPostExecute(String a) {
-            currentWeather.setText(weather);
-            currentTemperature.setText(currentTemp + "°");
-            highLow.setText("H: " + maxTemp + "°    L: "+ minTemp +"°");
+            currentWeather.setText(weather.substring(0,1).toUpperCase() + weather.substring(1));
+            currentTemperature.setText(Math.round(Float.parseFloat(currentTemp)) + "°");
+            highLow.setText("H: " + Math.round(Float.parseFloat(maxTemp)) + "°    L: "+ Math.round(Float.parseFloat(minTemp)) +"°");
         }
 
         @Override

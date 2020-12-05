@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,8 +19,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -83,7 +88,18 @@ public class SignUpActivity extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             signUpButton.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
+                            if(task.getException() instanceof FirebaseAuthUserCollisionException){
+                                errorDialog(getString(R.string.email_in_use));
+                            }
+                            else if(task.getException() instanceof FirebaseAuthWeakPasswordException){
+                                errorDialog(getString(R.string.pass_too_weak));
+                            }
+                            else if(task.getException() instanceof FirebaseNetworkException){
+                                errorDialog(getString(R.string.connectivity_err));
+                            }else{
+                                errorDialog(getString(R.string.other_issue));
+                            }
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
 
                         }
@@ -116,8 +132,9 @@ public class SignUpActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(SignUpActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.success_dialog);
-        Button dialog_button = dialog.findViewById(R.id.suc_ok_btn);
-        TextView dialog_text = dialog.findViewById(R.id.suc_dialog_txt);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button dialog_button = dialog.findViewById(R.id.err_ok_btn);
+        TextView dialog_text = dialog.findViewById(R.id.err_dialog_txt);
         dialog.setCanceledOnTouchOutside(false);
         dialog_text.setText(title.trim());
         dialog_button.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +143,25 @@ public class SignUpActivity extends AppCompatActivity {
                 Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
                 dialog.dismiss();
                 startActivity(intent);
+            }
+        });
+        dialog.show();
+    }
+
+    public void errorDialog(String title){
+        final Dialog dialog = new Dialog(SignUpActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.error_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button dialog_button = dialog.findViewById(R.id.err_ok_btn);
+        TextView dialog_text = dialog.findViewById(R.id.err_dialog_txt);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog_text.setText(title.trim());
+        dialog_text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        dialog_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
             }
         });
         dialog.show();

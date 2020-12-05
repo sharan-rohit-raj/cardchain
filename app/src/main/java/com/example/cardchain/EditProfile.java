@@ -3,16 +3,25 @@ package com.example.cardchain;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,6 +52,7 @@ public class EditProfile extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser user;
     boolean valueChanged = false;
+    ConnectivityManager cm;
     String TAG = "EditProfile";
 
     @Override
@@ -50,6 +60,7 @@ public class EditProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
+        cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
         firstName = findViewById(R.id.edit_firstName);
         TextWatcher firstNameWatcher = new TextWatcher() {
 
@@ -144,6 +155,11 @@ public class EditProfile extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!checkConnection()){
+                    errorDialog(getString(R.string.connectivity_err));
+                    return;
+                }
+
                 if(firstName.getText().toString().equals("") || lastName.getText().toString().equals("") || phNo.getText().toString().equals("") || emailField.getText().toString().equals("")){
                     Toast.makeText(EditProfile.this, "Must fill all the fields...", Toast.LENGTH_SHORT).show();
                     return;
@@ -188,6 +204,11 @@ public class EditProfile extends AppCompatActivity {
         return;
     }
 
+    private boolean checkConnection() {
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -209,7 +230,7 @@ public class EditProfile extends AppCompatActivity {
                 .set(editProfileModel).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(EditProfile.this, "Profile information successfully saved!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditProfile.this, getString(R.string.profile_saved), Toast.LENGTH_SHORT).show();
                 saveBtn.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);
             }
@@ -218,6 +239,7 @@ public class EditProfile extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 saveBtn.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);
+
                 Log.w(TAG, "Error writing document", e);
             }
         });
@@ -255,5 +277,24 @@ public class EditProfile extends AppCompatActivity {
             }
         });
         return;
+    }
+
+    public void errorDialog(String title){
+        final Dialog dialog = new Dialog(EditProfile.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.error_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button dialog_button = dialog.findViewById(R.id.err_ok_btn);
+        TextView dialog_text = dialog.findViewById(R.id.err_dialog_txt);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog_text.setText(title.trim());
+        dialog_text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        dialog_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }

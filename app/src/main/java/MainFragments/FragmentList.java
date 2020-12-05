@@ -2,10 +2,13 @@ package MainFragments;
 
 import android.app.ActionBar;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -70,6 +73,8 @@ public class FragmentList extends Fragment {
     ListView cardListView;
     ProgressBar progList;
     View view;
+    ConnectivityManager cm;
+
 
     @Nullable
     @Override
@@ -79,6 +84,8 @@ public class FragmentList extends Fragment {
         db = FirebaseFirestore.getInstance();
         user = auth.getCurrentUser();
         view =inflater.inflate((R.layout.fragment_list),container,false);
+        cm = (ConnectivityManager)view.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
 
         //Store all the images
         imageIDs = new ArrayList<>();
@@ -137,29 +144,37 @@ public class FragmentList extends Fragment {
     }
     public boolean deleteCard(String cardNum,final String cardName,final int position){
         Log.i("FragmentList","Delete Card");
-        Query docu = db.collection("users").document(user.getUid()).collection("cards").whereEqualTo("cardnumber",cardNum).whereEqualTo("cardname",cardName);
-        docu.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                try {
-                                    document.getReference().delete();
-                                    cardModels.remove(position);
-                                    cardListAdapter.notifyDataSetChanged();
-                                } catch (IndexOutOfBoundsException e) {
-                                    Log.i("FragmentSlide", "Deleting Card: " + cardName);
+        if(checkConnection()){
+            Query docu = db.collection("users").document(user.getUid()).collection("cards").whereEqualTo("cardnumber",cardNum).whereEqualTo("cardname",cardName);
+            docu.get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    try {
+                                        document.getReference().delete();
+                                        cardModels.remove(position);
+                                        cardListAdapter.notifyDataSetChanged();
+                                        Toast.makeText(getActivity(), getString(R.string.del_car_suc), Toast.LENGTH_SHORT).show();
+                                    } catch (IndexOutOfBoundsException e) {
+                                        Log.i("FragmentSlide", "Deleting Card: " + cardName);
 
-                                    Toast.makeText(getActivity(), "Error Deleting Card, Please try again", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), getString(R.string.del_car_err), Toast.LENGTH_SHORT).show();
+                                    }
                                 }
+                            } else {
+                                Toast.makeText(getActivity(),getString(R.string.del_car_err),Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    }
-                });
-        return true;
+                    });
+            return true;
+        }else{
+            errorDialog(getString(R.string.connectivity_err));
+            return false;
+        }
+
     }
     public class ShareCard extends AsyncTask<Bitmap,String,Uri>{
         @Override
@@ -189,8 +204,13 @@ public class FragmentList extends Fragment {
 
     }
     public void shareCard(final Bitmap barcode){
-        new ShareCard()
-                .execute(barcode);
+        if(checkConnection()){
+            new ShareCard()
+                    .execute(barcode);
+        }else{
+            errorDialog(getString(R.string.connectivity_err));
+        }
+
     }
 
     @Override
@@ -250,6 +270,31 @@ public class FragmentList extends Fragment {
                 }
                 card_barcode_image.setImageBitmap(bitmap);
                 //card_barcode_image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            }
+        });
+        dialog.show();
+    }
+
+
+    private boolean checkConnection() {
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    public void errorDialog(String title){
+        final Dialog dialog = new Dialog(view.getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.error_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button dialog_button = dialog.findViewById(R.id.err_ok_btn);
+        TextView dialog_text = dialog.findViewById(R.id.err_dialog_txt);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog_text.setText(title.trim());
+        dialog_text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        dialog_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
             }
         });
         dialog.show();

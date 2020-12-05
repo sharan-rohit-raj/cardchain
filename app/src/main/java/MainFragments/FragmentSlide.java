@@ -1,12 +1,17 @@
 package MainFragments;
 
 import android.animation.ArgbEvaluator;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -29,6 +36,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.cardchain.Adapter;
+import com.example.cardchain.AddCardActivity;
 import com.example.cardchain.ListCardModel;
 import com.example.cardchain.Model;
 import com.example.cardchain.R;
@@ -68,6 +76,7 @@ public class FragmentSlide extends Fragment {
     ArrayList<Integer> imageIDs;
     Model model;
     View view;
+    ConnectivityManager cm;
 
 
     @Nullable
@@ -75,6 +84,8 @@ public class FragmentSlide extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
          view =  inflater.inflate((R.layout.fragment_slide),container,false);
+        cm = (ConnectivityManager)view.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         user = auth.getCurrentUser();
@@ -166,28 +177,36 @@ public class FragmentSlide extends Fragment {
     }
     public boolean deleteCard(String cardNum, final String cardName, final int position){
         Log.i("FragmentSlide","Delete Card");
-        Query docu = db.collection("users").document(user.getUid()).collection("cards").whereEqualTo("cardnumber",cardNum).whereEqualTo("cardname",cardName);
-                docu.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.i("FragmentSlide","Deleting Card: "+cardName);
-                                try {
-                                    models.remove(position);
-                                    adapter.notifyDataSetChanged();
-                                    document.getReference().delete();
-                                }catch (IndexOutOfBoundsException e){
-                                    Toast.makeText(getActivity(),"Error Deleting Card, Please try again",Toast.LENGTH_SHORT).show();
+        if(checkConnection()){
+            Query docu = db.collection("users").document(user.getUid()).collection("cards").whereEqualTo("cardnumber",cardNum).whereEqualTo("cardname",cardName);
+            docu.get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.i("FragmentSlide","Deleting Card: "+cardName);
+                                    try {
+                                        models.remove(position);
+                                        adapter.notifyDataSetChanged();
+                                        document.getReference().delete();
+                                        Toast.makeText(getActivity(), getString(R.string.del_car_suc), Toast.LENGTH_SHORT).show();
+                                    }catch (IndexOutOfBoundsException e){
+                                        Toast.makeText(getActivity(),getString(R.string.del_car_err),Toast.LENGTH_SHORT).show();
+                                    }
                                 }
+                            } else {
+                                Toast.makeText(getActivity(),getString(R.string.del_car_err),Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    }
-                });
-        return true;
+                    });
+            return true;
+        }else{
+            errorDialog(getString(R.string.connectivity_err));
+            return false;
+        }
+
     }
     public class ShareCard extends AsyncTask<Bitmap,String, Uri> {
         @Override
@@ -228,7 +247,36 @@ public class FragmentSlide extends Fragment {
 
     }
     public void shareCard(final Bitmap barcode){
-        new ShareCard()
-                .execute(barcode);
+        if(checkConnection()){
+            new ShareCard()
+                    .execute(barcode);
+        }else{
+            errorDialog(getString(R.string.connectivity_err));
+        }
+
+    }
+
+    private boolean checkConnection() {
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    public void errorDialog(String title){
+        final Dialog dialog = new Dialog(view.getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.error_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button dialog_button = dialog.findViewById(R.id.err_ok_btn);
+        TextView dialog_text = dialog.findViewById(R.id.err_dialog_txt);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog_text.setText(title.trim());
+        dialog_text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        dialog_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }

@@ -14,9 +14,14 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -71,14 +76,23 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
     DrawerLayout drawer_Layout;
     TextView drawerName;
     SharedPreferences sharedPreferences;
+    WeatherDialog dialog;
+    ConnectivityManager cm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        WeatherDialog dialog=new WeatherDialog(this);
-        dialog.show();
+        cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if(checkConnection()){
+            dialog=new WeatherDialog(this);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+        }
+
         
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         // Check if we need to display our OnboardingActivity
@@ -121,6 +135,10 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if(!checkConnection()){
+                    errorDialog(getString(R.string.connectivity_err));
+                    return false;
+                }
                 switch (item.getItemId()) {
                     case R.id.profile_menu:
                         Intent editProfIntent = new Intent(HomeActivity.this, EditProfile.class);
@@ -128,6 +146,11 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
                         return true;
                     case R.id.delete_acc_menu:
                         deleteFirebaseAccount();
+                        return true;
+                    case R.id.weather_menu:
+                        dialog=new WeatherDialog(HomeActivity.this);
+                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialog.show();
                         return true;
                     case R.id.about_us:
                         Toast.makeText(HomeActivity.this, "About", Toast.LENGTH_SHORT).show();
@@ -187,15 +210,25 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, AddCardActivity.class);
-                startActivity(intent);
+                if(checkConnection()){
+                    Intent intent = new Intent(HomeActivity.this, AddCardActivity.class);
+                    startActivity(intent);
+                }else{
+                    errorDialog(getString(R.string.connectivity_err));
+                }
+
             }
         });
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                auth.signOut();
+                if(checkConnection()){
+                    auth.signOut();
+                }else{
+                    errorDialog(getString(R.string.connectivity_err));
+                }
+
             }
 
         });
@@ -222,12 +255,16 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
 
-
+    private boolean checkConnection() {
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
 
     private void deleteFirebaseAccount() {
         final Dialog dialog = new Dialog(HomeActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.reauthenticate);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         Button dialog_button = dialog.findViewById(R.id.confirm_btn);
         Button dialog_cancel = dialog.findViewById(R.id.cancel_Btn);
         final EditText passTxt = dialog.findViewById(R.id.passField);
@@ -235,28 +272,33 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
         dialog_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String password = passTxt.getText().toString();
-                if (password.equals("")) {
-                    Toast.makeText(HomeActivity.this, "Password Is Blank", Toast.LENGTH_SHORT).show();
-                }else{
-                    AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), password);
-                    user.reauthenticate(credential).
+                if(checkConnection()){
+                    String password = passTxt.getText().toString();
+                    if (password.equals("")) {
+                        Toast.makeText(HomeActivity.this, "Password Is Blank", Toast.LENGTH_SHORT).show();
+                    }else{
+                        AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), password);
+                        user.reauthenticate(credential).
 
-                            addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Log.d("HomeActivity", "User re-authenticated.");
-                                        deleteAllCards();
-                                        db.collection("users").document(user.getUid()).delete();
-                                        user.delete();
-                                    } else {
-                                        Toast.makeText(HomeActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
-                                        Log.d("HomeActivity", "Wrong Password");
+                                addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d("HomeActivity", "User re-authenticated.");
+                                            deleteAllCards();
+                                            db.collection("users").document(user.getUid()).delete();
+                                            user.delete();
+                                        } else {
+                                            Toast.makeText(HomeActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
+                                            Log.d("HomeActivity", "Wrong Password");
+                                        }
                                     }
-                                }
-                            });
+                                });
+                    }
+                }else{
+                    errorDialog(getString(R.string.connectivity_err));
                 }
+
             }
         });
         dialog_cancel.setOnClickListener(new View.OnClickListener(){
@@ -338,6 +380,25 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
                 fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
             }
         }
+    }
+
+    public void errorDialog(String title){
+        final Dialog dialog = new Dialog(HomeActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.error_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button dialog_button = dialog.findViewById(R.id.err_ok_btn);
+        TextView dialog_text = dialog.findViewById(R.id.err_dialog_txt);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog_text.setText(title.trim());
+        dialog_text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        dialog_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
 }
