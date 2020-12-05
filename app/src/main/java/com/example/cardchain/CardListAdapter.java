@@ -71,7 +71,7 @@ public class CardListAdapter extends BaseAdapter {
         imageBlur = new ImageBlur(imageView.getContext());
         imageBlur.makeBlur(imageView);
         cardName.setText(currModel.getCardname());
-        cardNumber.setText(currModel.getCardnumber());
+        cardNumber.setText(currModel.getBarcode());
         BitMatrix bitMatrix=null;
         BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
         try {

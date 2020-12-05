@@ -75,4 +75,6 @@
     <string name="card_fill_name_and_holder">Please Fill Out Holder Name and Card Name</string>
     <string name="del_car_suc">Deleted Card Successfully!</string>
     <string name="del_car_err">Error occurred while deleting. Please try again later.</string>
+    <string name="scn_barcode_first">Scan Barcode First</string>
+    <string name="card_exists">The Card your trying to save is already saved.</string>
 </resources>

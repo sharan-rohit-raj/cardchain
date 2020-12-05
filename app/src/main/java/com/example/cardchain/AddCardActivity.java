@@ -33,12 +33,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.LuminanceSource;
@@ -241,37 +246,64 @@ public class AddCardActivity extends AppCompatActivity {
         }
 
     }
+
     public void SaveCard(View view){
         Log.i("HERREEE","SAVING Crd");
         cardDetails=new HashMap<>();
         if (!barcodeData.equals("")){
-        cardDetails.put("cardholder", ecardHoldName.getText().toString());
-        cardDetails.put("cardname", ecardName.getText().toString());
+                cardDetails.put("cardholder", ecardHoldName.getText().toString());
+                cardDetails.put("cardname", ecardName.getText().toString());
 //                    if (ecardNumber.getText().toString().equals("")) {
-        cardDetails.put("cardnumber", barcodeData.substring(0, Math.min(16, barcodeData.length())));
+                cardDetails.put("cardnumber", barcodeData.substring(0, Math.min(16, barcodeData.length())));
 //                    } else {
 //                        cardDetails.put("cardnumber", ecardNumber.getText().toString());
 //                    }
 
 
-        cardDetails.put("Data", barcodeData);
-        cardDetails.put("BarcodeType", barcodeType);
-        cardDetails.put("tag", "all");
-        db.collection("users").document(auth.getUid()).collection("cards")
-                .add(cardDetails)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                cardDetails.put("Data", barcodeData);
+                cardDetails.put("BarcodeType", barcodeType);
+                cardDetails.put("tag", "all");
+
+                Query docu = db.collection("users").document(auth.getUid()).collection("cards").whereEqualTo("tag","all");
+                docu.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(DocumentReference ref) {
-                        successDialog(getString(R.string.card_saved));
-                                    //Toast.makeText(AddCardActivity.this, getString(R.string.card_saved), Toast.LENGTH_SHORT).show();
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String firecard = document.get("Data").toString();
+                                if(firecard.equals(barcodeData)){
+                                    errorDialog(getString(R.string.card_exists));
+                                    return;
+                                }
+                            }
+
+                            saveCardToFireStore(cardDetails);
+                        } else {
+                            Toast.makeText(AddCardActivity.this,getString(R.string.other_issue),Toast.LENGTH_SHORT).show();
+                            Log.d("AddCardActivity", "Error getting documents: ", task.getException());
+                        }
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(AddCardActivity.this, getString(R.string.card_save_err), Toast.LENGTH_LONG).show();
+
+                    private void saveCardToFireStore(Map<String, Object> cardDetails) {
+                        db.collection("users").document(auth.getUid()).collection("cards")
+                                .add(cardDetails)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference ref) {
+                                        successDialog(getString(R.string.card_saved));
+                                        //Toast.makeText(AddCardActivity.this, getString(R.string.card_saved), Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(AddCardActivity.this, getString(R.string.card_save_err), Toast.LENGTH_LONG).show();
+                                    }
+                                });
                     }
-                });}
+                });
+
+        }
         else{
             Toast.makeText(AddCardActivity.this,"Scan Barcode First",Toast.LENGTH_SHORT).show();
             Log.i("HERREEE","BLANK");
@@ -354,7 +386,6 @@ public class AddCardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                finish();
             }
         });
         dialog.show();
