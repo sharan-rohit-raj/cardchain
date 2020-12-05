@@ -76,5 +76,5 @@
     <string name="del_car_suc">Deleted Card Successfully!</string>
     <string name="del_car_err">Error occurred while deleting. Please try again later.</string>
     <string name="scn_barcode_first">Scan Barcode First</string>
-    <string name="card_exists">The Card your trying to save is already saved.</string>
+    <string name="card_exists">The Card your trying to save is already saved. Do you still want to save?</string>
 </resources>

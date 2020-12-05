@@ -272,35 +272,18 @@ public class AddCardActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String firecard = document.get("Data").toString();
                                 if(firecard.equals(barcodeData)){
-                                    errorDialog(getString(R.string.card_exists));
+                                    errorCardDialog(getString(R.string.card_exists), cardDetails);
                                     return;
                                 }
                             }
 
-                            saveCardToFireStore(cardDetails);
                         } else {
                             Toast.makeText(AddCardActivity.this,getString(R.string.other_issue),Toast.LENGTH_SHORT).show();
                             Log.d("AddCardActivity", "Error getting documents: ", task.getException());
                         }
                     }
 
-                    private void saveCardToFireStore(Map<String, Object> cardDetails) {
-                        db.collection("users").document(auth.getUid()).collection("cards")
-                                .add(cardDetails)
-                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                    @Override
-                                    public void onSuccess(DocumentReference ref) {
-                                        successDialog(getString(R.string.card_saved));
-                                        //Toast.makeText(AddCardActivity.this, getString(R.string.card_saved), Toast.LENGTH_SHORT).show();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(AddCardActivity.this, getString(R.string.card_save_err), Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                    }
+
                 });
 
         }
@@ -308,6 +291,24 @@ public class AddCardActivity extends AppCompatActivity {
             Toast.makeText(AddCardActivity.this,"Scan Barcode First",Toast.LENGTH_SHORT).show();
             Log.i("HERREEE","BLANK");
         }
+    }
+
+    private void saveCardToFireStore(Map<String, Object> cardDetails) {
+        db.collection("users").document(auth.getUid()).collection("cards")
+                .add(cardDetails)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference ref) {
+                        successDialog(getString(R.string.card_saved));
+                        //Toast.makeText(AddCardActivity.this, getString(R.string.card_saved), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddCardActivity.this, getString(R.string.card_save_err), Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     public void AddNewCard(View view) {
@@ -365,6 +366,33 @@ public class AddCardActivity extends AppCompatActivity {
         dialog_text.setText(title.trim());
         dialog_text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         dialog_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    public void errorCardDialog(String title, final Map<String, Object> cardDetails){
+        final Dialog dialog = new Dialog(AddCardActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.exist_card_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button dialog_button = dialog.findViewById(R.id.err_ok_btn);
+        Button dialog_cancel = dialog.findViewById(R.id.err_ok_btn2);
+        TextView dialog_text = dialog.findViewById(R.id.err_dialog_txt);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog_text.setText(title.trim());
+        dialog_text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        dialog_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveCardToFireStore(cardDetails);
+                dialog.dismiss();
+            }
+        });
+        dialog_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();

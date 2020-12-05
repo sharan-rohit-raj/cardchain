@@ -77,6 +77,6 @@
     <string name="del_car_suc">Supprimer la carte avec succès!</string>
     <string name="del_car_err">Une erreur s\'est produite lors de la suppression. Veuillez réessayer plus tard.</string>
     <string name="scn_barcode_first">Scanner d\'abord le code-barres</string>
-    <string name="card_exists">La carte que vous essayez de sauvegarder est déjà enregistrée.</string>
+    <string name="card_exists">La carte que vous essayez de sauvegarder est déjà enregistrée. Voulez-vous toujours enregistrer?</string>
 
 </resources>
