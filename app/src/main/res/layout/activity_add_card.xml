@@ -377,4 +377,15 @@
 
     </androidx.cardview.widget.CardView>
 
+    <Button
+        android:id="@+id/saveCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:onClick="SaveCard"
+        android:text="@string/save"
+        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView16" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
