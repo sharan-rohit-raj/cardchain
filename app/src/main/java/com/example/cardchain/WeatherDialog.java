@@ -65,11 +65,15 @@ public class WeatherDialog extends Dialog{
                 dismiss();
             }
         });
-        Date currentTime = Calendar.getInstance().getTime();
-        if (4 <= currentTime.getHours() && currentTime.getHours() < 12) {
+//        Date currentTime = Calendar.getInstance().getTime();
+        Date currentTime = new Date();
+        Log.i("WeatherDialog","current houe: "+currentTime.getHours());
+        int hour = currentTime.getHours();
+
+        if (hour >= 4 && hour < 12) {
             greeting.setText(getContext().getText(R.string.good_mrning));
             timePic.setImageResource(R.drawable.morning);
-        } else if (12 <= currentTime.getHours() && currentTime.getHours() < 8) {
+        } else if (hour >= 12 && hour < 20) {
             greeting.setText(getContext().getText(R.string.good_aftrnoon));
             timePic.setImageResource(R.drawable.afternoon);
         } else {
