@@ -28,7 +28,9 @@ import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthEmailException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthMultiFactorException;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -105,6 +107,8 @@ public class LoginActivity extends AppCompatActivity {
                             //TODO:Yet to add a wrong credentials login dialog box
                             if(task.getException() instanceof FirebaseAuthInvalidCredentialsException){
                                 errorDialog(getString(R.string.invalid_cred));
+                            }else if(task.getException() instanceof FirebaseAuthEmailException || task.getException() instanceof FirebaseAuthInvalidUserException){
+                                errorDialog(getString(R.string.forg_pass_email_err));
                             }
                             else if(task.getException() instanceof FirebaseTooManyRequestsException){
                                 errorDialog((getString(R.string.too_many_attempts)));

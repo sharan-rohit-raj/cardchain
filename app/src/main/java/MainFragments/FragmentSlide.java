@@ -94,6 +94,7 @@ public class FragmentSlide extends Fragment {
         imageIDs.add(R.drawable.pattern1);
         imageIDs.add(R.drawable.pattern2);
         imageIDs.add(R.drawable.pattern3);
+
         progList = view.findViewById(R.id.progress_list);
         progList.setVisibility(View.VISIBLE);
 
