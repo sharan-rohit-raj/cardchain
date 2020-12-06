@@ -78,5 +78,12 @@
     <string name="del_car_err">Une erreur s\'est produite lors de la suppression. Veuillez réessayer plus tard.</string>
     <string name="scn_barcode_first">Scanner d\'abord le code-barres</string>
     <string name="card_exists">La carte que vous essayez de sauvegarder est déjà enregistrée. Voulez-vous toujours enregistrer?</string>
+    <string name="pass_weak">Le mot de passe est faible. Ajouter plus de caractères</string>
+    <string name="pass_dig">, chiffres</string>
+    <string name="pass_up">, caractères majuscules</string>
+    <string name="pass_low">, caractères minuscules</string>
+    <string name="pass_spl">, caractères spéciaux</string>
+    <string name="pass_not_contain">Le mot de passe ne contient pas </string>
+    <string name="forg_pass_email_err">Hmm… nous ne pensons pas avoir votre compte…</string>
 
 </resources>

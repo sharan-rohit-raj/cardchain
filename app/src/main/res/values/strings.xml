@@ -77,4 +77,11 @@
     <string name="del_car_err">Error occurred while deleting. Please try again later.</string>
     <string name="scn_barcode_first">Scan Barcode First</string>
     <string name="card_exists">The Card your trying to save is already saved. Do you still want to save?</string>
+    <string name="pass_weak">Password is weak. Add more characters</string>
+    <string name="pass_dig">, digits</string>
+    <string name="pass_up">, uppercase characters</string>
+    <string name="pass_low">, lowercase characters</string>
+    <string name="pass_spl">, special characters</string>
+    <string name="pass_not_contain">Password doesn\'t contain </string>
+    <string name="forg_pass_email_err">Hmm… we don\'t think we have your account…</string>
 </resources>
