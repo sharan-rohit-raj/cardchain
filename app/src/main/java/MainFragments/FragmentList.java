@@ -238,7 +238,7 @@ public class FragmentList extends Fragment {
         final ImageView card_image = dialog.findViewById(R.id.dialog_card_img);
         dialog.setCanceledOnTouchOutside(true);
         card_dialog_name.setText(cardModel.getCardname().trim());
-        card_dialog_num.setText(cardModel.getCardnumber().trim());
+        card_dialog_num.setText(cardModel.getBarcode().trim());
         card_dialog_hold.setText(cardModel.getCardHold().trim());
         card_image.setOnClickListener(new View.OnClickListener() {
             @Override

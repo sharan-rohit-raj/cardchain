@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +18,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseNetworkException;
+import com.google.firebase.auth.FirebaseAuthEmailException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
     Button forg_btn;
@@ -59,8 +64,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         else{
                             forgProg.setVisibility(View.INVISIBLE);
                             forg_btn.setVisibility(View.VISIBLE);
-                            Log.d(TAG, "Failed to send email.");
-                            Toast.makeText(ForgotPasswordActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "Failed to send email due to "+ task.getException());
+                            if(task.getException() instanceof FirebaseAuthInvalidUserException || task.getException() instanceof FirebaseAuthEmailException){
+                                errorDialog(getString(R.string.forg_pass_email_err));
+                            }else if(task.getException() instanceof FirebaseNetworkException){
+                                errorDialog(getString(R.string.internet_lost));
+                            }else{
+                                errorDialog(getString(R.string.other_issue));
+                            }
                         }
                     }
                 });
@@ -89,6 +100,25 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             public void onClick(View view) {
                 dialog.dismiss();
                 finish();
+            }
+        });
+        dialog.show();
+    }
+
+    public void errorDialog(String title){
+        final Dialog dialog = new Dialog(ForgotPasswordActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.error_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button dialog_button = dialog.findViewById(R.id.err_ok_btn);
+        TextView dialog_text = dialog.findViewById(R.id.err_dialog_txt);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog_text.setText(title.trim());
+        dialog_text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        dialog_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
             }
         });
         dialog.show();

@@ -73,7 +73,7 @@ public class WeatherDialog extends Dialog{
         if (hour >= 4 && hour < 12) {
             greeting.setText(getContext().getText(R.string.good_mrning));
             timePic.setImageResource(R.drawable.morning);
-        } else if (hour >= 12 && hour < 20) {
+        } else if (hour >= 12 && hour < 17) {
             greeting.setText(getContext().getText(R.string.good_aftrnoon));
             timePic.setImageResource(R.drawable.afternoon);
         } else {

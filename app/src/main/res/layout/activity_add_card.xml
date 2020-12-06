@@ -6,6 +6,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--    <EditText-->
+    <!--        android:id="@+id/edit_card_num"-->
+    <!--        android:layout_width="336dp"-->
+    <!--        android:layout_height="44dp"-->
+    <!--        android:layout_marginBottom="36dp"-->
+    <!--        android:ems="10"-->
+    <!--        android:inputType="number"-->
+    <!--        android:maxLength="16"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/edit_card_hold"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.533"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/cardView"-->
+    <!--        app:layout_constraintVertical_bias="0.787" />-->
+
     <ImageView
         android:id="@+id/imageView16"
         android:layout_width="wrap_content"
@@ -18,35 +33,53 @@
         app:layout_constraintVertical_bias="0.779"
         app:srcCompat="@drawable/elipse3" />
 
-    <!--    <EditText-->
-<!--        android:id="@+id/edit_card_num"-->
-<!--        android:layout_width="336dp"-->
-<!--        android:layout_height="44dp"-->
-<!--        android:layout_marginBottom="36dp"-->
-<!--        android:ems="10"-->
-<!--        android:inputType="number"-->
-<!--        android:maxLength="16"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/edit_card_hold"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.533"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/cardView"-->
-<!--        app:layout_constraintVertical_bias="0.787" />-->
-
-    <TextView
-        android:id="@+id/textView13"
+    <Button
+        android:id="@+id/scan_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:background="@drawable/border_btn"
         android:fontFamily="@font/roboto"
-        android:text="@string/card_holder"
-        android:textColor="#050505"
-        app:layout_constraintBottom_toTopOf="@+id/edit_card_hold"
+        android:text="@string/scan_card"
+        android:textColor="#000000"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.142"
+        app:layout_constraintHorizontal_bias="0.123"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_card_num"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.819" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_btn"
+        android:onClick="ScanPhoto"
+        android:fontFamily="@font/roboto"
+        android:text="@string/scan_frm_gal"
+        android:padding="10dp"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.877"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.819" />
+
+    <Button
+        android:id="@+id/saveCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_button"
+        android:onClick="SaveCard"
+        android:text="@string/save"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.946" />
 
     <EditText
         android:id="@+id/edit_card_hold"
@@ -61,51 +94,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
         app:layout_constraintVertical_bias="0.218" />
-
-    <Button
-        android:id="@+id/scan_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_button"
-        android:fontFamily="@font/roboto"
-        android:text="@string/scan_card"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.856" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/transp_button"
-        android:onClick="ScanPhoto"
-        android:text="@string/scan_frm_gal"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.953" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:fontFamily="@font/roboto"
-        android:text="@string/card_name"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/card_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.123"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="0.993" />
 
     <EditText
         android:id="@+id/card_name"
@@ -133,6 +121,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.017"
         app:srcCompat="@drawable/left_arrow" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/card_holder"
+        android:textColor="#050505"
+        app:layout_constraintBottom_toTopOf="@+id/edit_card_hold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.142"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_card_num"
+        app:layout_constraintVertical_bias="1.0" />
 
     <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
     <!--        android:id="@+id/constraintLayout"-->
@@ -253,18 +256,33 @@
     <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     <!--    <TextView-->
-<!--        android:id="@+id/textView12"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/roboto"-->
-<!--        android:text="@string/card_num"-->
-<!--        android:textColor="#090909"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/edit_card_num"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.121"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/cardView"-->
-<!--        app:layout_constraintVertical_bias="0.945" />-->
+    <!--        android:id="@+id/textView12"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:fontFamily="@font/roboto"-->
+    <!--        android:text="@string/card_num"-->
+    <!--        android:textColor="#090909"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/edit_card_num"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.121"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/cardView"-->
+    <!--        app:layout_constraintVertical_bias="0.945" />-->
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/card_name"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/card_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.123"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintVertical_bias="0.993" />
 
     <TextView
         android:id="@+id/textView6"

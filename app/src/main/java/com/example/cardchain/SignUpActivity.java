@@ -62,8 +62,16 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "Email Id is invalid !", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                else if(passField.getText().toString().equals(confpassField.getText().toString())== false){
+                else if(passField.getText().toString().equals(confpassField.getText().toString())== false) {
                     Toast.makeText(SignUpActivity.this, "Passwords don't match !", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(validation.passwordStrength(confpassField.getText().toString()).size() != 0){
+                    String suggestion_msg = "";
+                    for(Integer i: validation.passwordStrength((confpassField.getText().toString()))){
+                        suggestion_msg += getString(i);
+                    }
+                    errorDialog(suggestion_msg);
                     return;
                 }
 

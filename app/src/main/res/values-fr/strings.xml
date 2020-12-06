@@ -86,4 +86,13 @@
     <string name="about_dialog_dev4">Ni Yang</string>
     <string name="about_dialog_dev5">Sharan Rohit Raj</string>
     <string name="about_dialog_email">Email du contact: cardchain@gmail.com</string>
+    <string name="scn_barcode_first">Scanner d\'abord le code-barres</string>
+    <string name="card_exists">La carte que vous essayez de sauvegarder est déjà enregistrée. Voulez-vous toujours enregistrer?</string>
+    <string name="pass_weak">Le mot de passe est faible. Ajouter plus de caractères</string>
+    <string name="pass_dig">, chiffres</string>
+    <string name="pass_up">, caractères majuscules</string>
+    <string name="pass_low">, caractères minuscules</string>
+    <string name="pass_spl">, caractères spéciaux</string>
+    <string name="pass_not_contain">Le mot de passe ne contient pas </string>
+    <string name="forg_pass_email_err">Hmm… nous ne pensons pas avoir votre compte…</string>
 </resources>

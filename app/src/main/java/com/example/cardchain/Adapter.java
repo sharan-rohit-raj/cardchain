@@ -77,7 +77,7 @@ public class Adapter extends PagerAdapter {
         imageBlur = new ImageBlur(imageButton.getContext());
         imageBlur.makeBlur(imageButton);
         cardNameTxt.setText(curModel.getCardname());
-        cardNumTxt.setText(curModel.getCardnumber());
+        cardNumTxt.setText(curModel.getBarcode());
         cardOwnerName.setText(curModel.getCardHoldName());
         BitMatrix bitMatrix = null;
         try {

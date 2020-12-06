@@ -1,5 +1,11 @@
 package com.example.cardchain;
 
+import android.content.res.Resources;
+import android.widget.ArrayAdapter;
+
+import com.google.rpc.context.AttributeContext;
+
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,15 +23,16 @@ public class Validation {
         return pat.matcher(email).matches();
     }
 
-    public String passwordStrength(String password){
+    public ArrayList<Integer> passwordStrength(String password){
 
-        String suggestion = "";
-        String final_suggestion = "";
+        ArrayList<Integer> suggestion = new ArrayList<>();
+        ArrayList<Integer> final_suggestion = new ArrayList<>();
         // Create the patterns to search digit,
         // upper case alphabet, lower case
         // alphabet and special character
         if (password.length() < 10){
-            return "Password is weak. Add more characters";
+            final_suggestion.add(R.string.pass_weak);
+            return final_suggestion;
         }
 
         Pattern digit = Pattern.compile("(\\d)");
@@ -41,24 +48,24 @@ public class Validation {
 
         // If no digits are present
         if (!Digit.find()) {
-            suggestion += ", digits";
+            suggestion.add(R.string.pass_dig);
         }
         // If no upper case alphabet is present
         if (!Upper.find()) {
-            suggestion += ", uppercase characters";
+            suggestion.add(R.string.pass_up);
         }
         // If no lower case alphabet is present
         if (!Lower.find()) {
-            suggestion += ", lowercase characters";
+            suggestion.add(R.string.pass_low);
         }
         // If no special character is is present
         if (!Special.find()) {
-            suggestion += ", special characters";
+            suggestion.add(R.string.pass_spl);
         }
 
-        if(suggestion.equals("") == false){
-            String pre_suggest = "Password doesn't contain ";
-            final_suggestion = pre_suggest + suggestion;
+        if(suggestion.size() != 0){
+            final_suggestion.add(R.string.pass_not_contain);
+            final_suggestion.addAll(suggestion);
         }
 
 
