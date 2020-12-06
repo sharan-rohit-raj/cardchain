@@ -75,4 +75,15 @@
     <string name="card_fill_name_and_holder">Please Fill Out Holder Name and Card Name</string>
     <string name="del_car_suc">Deleted Card Successfully!</string>
     <string name="del_car_err">Error occurred while deleting. Please try again later.</string>
+    <string name="about_dialog_button">Got it</string>
+    <string name="about_dialog_appname">CardChain</string>
+    <string name="about_dialog_appversion">Version 1.0</string>
+    <string name="about_dialog_thanks">Thanks For Developers</string>
+    <string name="about_dialog_dev1">Benjamin Keunen</string>
+    <string name="about_dialog_dev2">Fangjian Lei</string>
+    <string name="about_dialog_dev3">Matthew Wong</string>
+    <string name="about_dialog_dev4">Ni Yang</string>
+    <string name="about_dialog_dev5">Sharan Rohit Raj</string>
+    <string name="about_dialog_email">Contact Email: cardchain@gmail.com</string>
+
 </resources>

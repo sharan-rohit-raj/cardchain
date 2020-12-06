@@ -76,4 +76,14 @@
     <string name="card_fill_name_and_holder">Veuillez remplir le nom du titulaire et le nom de la carte</string>
     <string name="del_car_suc">Supprimer la carte avec succès!</string>
     <string name="del_car_err">Une erreur s\'est produite lors de la suppression. Veuillez réessayer plus tard.</string>
+    <string name="about_dialog_button">Je l\'ai</string>
+    <string name="about_dialog_appname">CardChain</string>
+    <string name="about_dialog_appversion">Version 1.0</string>
+    <string name="about_dialog_thanks">Merci pour les développeurs</string>
+    <string name="about_dialog_dev1">Benjamin Keunen</string>
+    <string name="about_dialog_dev2">Fangjian Lei</string>
+    <string name="about_dialog_dev3">Matthew Wong</string>
+    <string name="about_dialog_dev4">Ni Yang</string>
+    <string name="about_dialog_dev5">Sharan Rohit Raj</string>
+    <string name="about_dialog_email">Email du contact: cardchain@gmail.com</string>
 </resources>
