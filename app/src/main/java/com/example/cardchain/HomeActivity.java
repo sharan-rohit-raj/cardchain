@@ -80,6 +80,7 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
     ConnectivityManager cm;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,7 +154,10 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
                         dialog.show();
                         return true;
                     case R.id.about_us:
-                        Toast.makeText(HomeActivity.this, "About", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(HomeActivity.this, "About", Toast.LENGTH_SHORT).show();
+//                        ad = new AboutDialog();
+//                        ad.show(getSupportFragmentManager(),"About dialog");
+                        aboutDialog();
                         return true;
                     case R.id.contact_us_drawer:
                         Intent contactIntent = new Intent(HomeActivity.this, ContactUs.class);
@@ -400,5 +404,20 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
         });
         dialog.show();
     }
+    public void aboutDialog(){
+        final Dialog dialog = new Dialog(HomeActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.about_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button dialog_button = dialog.findViewById(R.id.about_ok_btn);
+        dialog.setCanceledOnTouchOutside(false);
 
+        dialog_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
 }
