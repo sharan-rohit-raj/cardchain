@@ -91,7 +91,6 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             SharedPreferences.Editor editor = sharedPref.edit();
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "login:success");
                             login.setVisibility(View.VISIBLE);
                             loginProg.setVisibility(View.INVISIBLE);
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -103,8 +102,6 @@ public class LoginActivity extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             login.setVisibility(View.VISIBLE);
                             loginProg.setVisibility(View.INVISIBLE);
-
-                            //TODO:Yet to add a wrong credentials login dialog box
                             if(task.getException() instanceof FirebaseAuthInvalidCredentialsException){
                                 errorDialog(getString(R.string.invalid_cred));
                             }else if(task.getException() instanceof FirebaseAuthEmailException || task.getException() instanceof FirebaseAuthInvalidUserException){
@@ -118,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                             else{
                                 errorDialog((getString(R.string.other_issue)));
                             }
-                            Log.d(TAG, "login :failure", task.getException());
+
 
                         }
                     }

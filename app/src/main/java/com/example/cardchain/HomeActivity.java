@@ -183,7 +183,6 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
         meowNav.setOnClickMenuListener(new Function1<MeowBottomNavigation.Model, Unit>() {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
-                Log.d("nav_bar", "Model ID: " + model.getId());
                 return null;
             }
         });
@@ -315,7 +314,6 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     }
     public boolean deleteAllCards(){
-        Log.i("HomeActivity","Delete Card");
         Query docu = db.collection("users").document(user.getUid()).collection("cards").whereEqualTo("tag","all");
         docu.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -323,11 +321,10 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.i("HomeActivity","Deleting Card ");
                                 document.getReference().delete();
                             }
                         } else {
-                            Log.d("HomeActivity", "Error getting documents: ", task.getException());
+                            Toast.makeText(HomeActivity.this,"Error Deleting",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -342,15 +339,12 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("FirebaseHome","In Stop");
         FirebaseAuth.getInstance().addAuthStateListener(this);
     }
 //
     @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-        Log.d("FirebaseHome","Calling AuthState");
         if(firebaseAuth.getCurrentUser() == null && !alreadyCalled){
-            Log.d("FirebaseHome","Calling start login");
             alreadyCalled = true;
             startLoginActivity();
         }

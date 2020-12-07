@@ -86,7 +86,6 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task){
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
                             signUpButton.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.INVISIBLE);
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -108,7 +107,6 @@ public class SignUpActivity extends AppCompatActivity {
                             }else{
                                 errorDialog(getString(R.string.other_issue));
                             }
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
 
                         }
 

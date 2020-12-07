@@ -57,6 +57,21 @@
                 app:layout_constraintVertical_bias="0.239" />
 
             <TextView
+                android:id="@+id/card_num_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="TextView"
+                android:textColor="#FBFBFB"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.764"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.789" />
+
+            <TextView
                 android:id="@+id/card_name_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,25 +82,10 @@
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.46"
+                app:layout_constraintHorizontal_bias="0.542"
                 app:layout_constraintStart_toEndOf="@+id/card_name_desc"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.239" />
-
-            <TextView
-                android:id="@+id/card_num_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="TextView"
-                android:textColor="#FBFBFB"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.718"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.789" />
 
             <Button
                 android:id="@+id/delete_card_list"

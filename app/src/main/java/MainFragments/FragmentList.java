@@ -12,9 +12,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +27,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.Constraints;
 import androidx.fragment.app.Fragment;
 
 import com.example.cardchain.CardListAdapter;
-import com.example.cardchain.HomeActivity;
 import com.example.cardchain.ListCardModel;
 import com.example.cardchain.R;
-import com.example.cardchain.SignUpActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -112,12 +107,10 @@ public class FragmentList extends Fragment {
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
                     progList.setVisibility(View.INVISIBLE);
-                    Log.w(TAG, "Listen failed.", error);
                     return;
                 }
 
                 progList.setVisibility(View.VISIBLE);
-                Log.d(TAG, "Number of Cards: "+ value.size());
                 for(QueryDocumentSnapshot doc: value){
                     Random rand = new Random();
                     int randomImage = imageIDs.get(rand.nextInt(imageIDs.size()));
@@ -143,7 +136,6 @@ public class FragmentList extends Fragment {
         });
     }
     public boolean deleteCard(String cardNum,final String cardName,final int position){
-        Log.i("FragmentList","Delete Card");
         if(checkConnection()){
             Query docu = db.collection("users").document(user.getUid()).collection("cards").whereEqualTo("cardnumber",cardNum).whereEqualTo("cardname",cardName);
             docu.get()
@@ -158,14 +150,11 @@ public class FragmentList extends Fragment {
                                         cardListAdapter.notifyDataSetChanged();
                                         Toast.makeText(getActivity(), getString(R.string.del_car_suc), Toast.LENGTH_SHORT).show();
                                     } catch (IndexOutOfBoundsException e) {
-                                        Log.i("FragmentSlide", "Deleting Card: " + cardName);
-
                                         Toast.makeText(getActivity(), getString(R.string.del_car_err), Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             } else {
                                 Toast.makeText(getActivity(),getString(R.string.del_car_err),Toast.LENGTH_SHORT).show();
-                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
                         }
                     });
@@ -194,7 +183,6 @@ public class FragmentList extends Fragment {
         @Override
         protected void onPostExecute(Uri bitmapUri) {
             super.onPostExecute(bitmapUri);
-            Log.i("async", "we here");
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
@@ -238,7 +226,7 @@ public class FragmentList extends Fragment {
         final ImageView card_image = dialog.findViewById(R.id.dialog_card_img);
         dialog.setCanceledOnTouchOutside(true);
         card_dialog_name.setText(cardModel.getCardname().trim());
-        card_dialog_num.setText(cardModel.getBarcode().trim());
+        card_dialog_num.setText(cardModel.getCardnumber().trim());
         card_dialog_hold.setText(cardModel.getCardHold().trim());
         card_image.setOnClickListener(new View.OnClickListener() {
             @Override

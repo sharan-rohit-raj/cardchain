@@ -54,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="128dp"
         android:fontFamily="@font/rochester"
         android:text="@string/hello"
         android:textColor="#000000"
@@ -63,11 +63,15 @@
 
     <TextView
         android:id="@+id/display_name"
-        android:layout_width="wrap_content"
+        android:layout_width="287dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="-156dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="128dp"
+        android:layout_toEndOf="@+id/hello_view"
         android:layout_toRightOf="@+id/hello_view"
+        android:layout_toStartOf="@+id/imageView27"
         android:fontFamily="@font/rochester"
         android:text="@string/user"
         android:textColor="#000000"
@@ -79,8 +83,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="60dp"
         android:layout_marginRight="30dp"
+        android:layout_marginTop="55dp"
         app:srcCompat="@drawable/card_black" />
 
 </RelativeLayout>

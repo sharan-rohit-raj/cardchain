@@ -67,7 +67,6 @@ public class WeatherDialog extends Dialog{
         });
 //        Date currentTime = Calendar.getInstance().getTime();
         Date currentTime = new Date();
-        Log.i("WeatherDialog","current houe: "+currentTime.getHours());
         int hour = currentTime.getHours();
 
         if (hour >= 4 && hour < 12) {
@@ -96,14 +95,12 @@ public class WeatherDialog extends Dialog{
 
         @Override
         protected void onPreExecute() {
-            Log.i("onPreExecute", " is called");
             super.onPreExecute();
 
         }
 
         @Override
         protected String doInBackground(String... strings) {
-            Log.i("doInBackground", " is called");
             try {
                 URL url = new URL("https://api.openweathermap.org/data/2.5/weather?q=" + this.city + ",ca&APPID=79cecf493cb6e52d25bb7b7050ff723c&mode=xml&units=metric");
                 HttpsURLConnection httpsURLConnection = (HttpsURLConnection) url.openConnection();

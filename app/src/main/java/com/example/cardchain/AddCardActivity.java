@@ -23,7 +23,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -224,7 +223,6 @@ public class AddCardActivity extends AppCompatActivity {
 
                 }
             } catch( Exception e){
-                Log.i("CARDSCAN","THERE IS MESSAGE");
                 Toast.makeText(AddCardActivity.this,getString(R.string.use_clear_img),Toast.LENGTH_SHORT).show();
 
             }
@@ -248,7 +246,6 @@ public class AddCardActivity extends AppCompatActivity {
     }
 
     public void SaveCard(View view){
-        Log.i("HERREEE","SAVING Crd");
         cardDetails=new HashMap<>();
         if (!barcodeData.equals("")){
                 cardDetails.put("cardholder", ecardHoldName.getText().toString());
@@ -281,7 +278,6 @@ public class AddCardActivity extends AppCompatActivity {
 
                         } else {
                             Toast.makeText(AddCardActivity.this,getString(R.string.other_issue),Toast.LENGTH_SHORT).show();
-                            Log.d("AddCardActivity", "Error getting documents: ", task.getException());
                         }
                     }
 
@@ -291,7 +287,6 @@ public class AddCardActivity extends AppCompatActivity {
         }
         else{
             Toast.makeText(AddCardActivity.this,"Scan Barcode First",Toast.LENGTH_SHORT).show();
-            Log.i("HERREEE","BLANK");
         }
     }
 

@@ -238,7 +238,6 @@ public class FragmentSlide extends Fragment {
         @Override
         protected void onPostExecute(Uri bitmapUri) {
             super.onPostExecute(bitmapUri);
-            Log.i("async", "we here");
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);

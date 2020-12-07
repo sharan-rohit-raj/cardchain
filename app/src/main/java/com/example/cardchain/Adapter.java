@@ -2,26 +2,19 @@ package com.example.cardchain;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.NetworkInfo;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -77,7 +70,7 @@ public class Adapter extends PagerAdapter {
         imageBlur = new ImageBlur(imageButton.getContext());
         imageBlur.makeBlur(imageButton);
         cardNameTxt.setText(curModel.getCardname());
-        cardNumTxt.setText(curModel.getBarcode());
+        cardNumTxt.setText(curModel.getCardnumber());
         cardOwnerName.setText(curModel.getCardHoldName());
         BitMatrix bitMatrix = null;
         try {
@@ -103,12 +96,10 @@ public class Adapter extends PagerAdapter {
                 cardNameTxt.setVisibility(View.INVISIBLE);
                 cardOwnerName.setVisibility(View.INVISIBLE);
                 cardHoldTitle.setVisibility(View.INVISIBLE);
-                Log.i("Adapter","Long Click");
 
                 deleteCard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.i("Adapter","Delete Button clicked");
                         parent.deleteCard(curModel.getCardnumber(),curModel.getCardname(),position);
 
                     }

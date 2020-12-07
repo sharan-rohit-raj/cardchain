@@ -58,13 +58,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             forgProg.setVisibility(View.INVISIBLE);
                             forg_btn.setVisibility(View.VISIBLE);
-                            Log.d(TAG, "Email sent.");
                             successDialog(getString(R.string.forg_dial));
                         }
                         else{
                             forgProg.setVisibility(View.INVISIBLE);
                             forg_btn.setVisibility(View.VISIBLE);
-                            Log.d(TAG, "Failed to send email due to "+ task.getException());
                             if(task.getException() instanceof FirebaseAuthInvalidUserException || task.getException() instanceof FirebaseAuthEmailException){
                                 errorDialog(getString(R.string.forg_pass_email_err));
                             }else if(task.getException() instanceof FirebaseNetworkException){
