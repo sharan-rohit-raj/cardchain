@@ -143,7 +143,7 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
                 switch (item.getItemId()) {
                     case R.id.profile_menu:
                         Intent editProfIntent = new Intent(HomeActivity.this, EditProfile.class);
-                        startActivity(editProfIntent);
+                        startActivityForResult(editProfIntent, 9909);
                         return true;
                     case R.id.delete_acc_menu:
                         deleteFirebaseAccount();
@@ -361,12 +361,16 @@ public class HomeActivity extends AppCompatActivity implements FirebaseAuth.Auth
             SharedPreferences.Editor sharedPrefEditor = PreferenceManager.getDefaultSharedPreferences(this).edit();
             sharedPrefEditor.putBoolean(OnBoardingActitivity.onBoardingCompleted, true);
             sharedPrefEditor.apply();
-        }else{
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag("CurFrag");
-            if (fragment != null) {
-                fragment.onActivityResult(requestCode, resultCode, intent);
+        }else if (requestCode== 9909){
+            drawerName.setText(user.getDisplayName());
+        }else
+            {
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag("CurFrag");
+                if (fragment != null) {
+                    fragment.onActivityResult(requestCode, resultCode, intent);
+                }
             }
-        }
+        
 
     }
     @Override
