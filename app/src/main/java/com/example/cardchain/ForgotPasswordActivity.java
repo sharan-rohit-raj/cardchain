@@ -89,6 +89,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(ForgotPasswordActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.success_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         Button dialog_button = dialog.findViewById(R.id.err_ok_btn);
         TextView dialog_text = dialog.findViewById(R.id.err_dialog_txt);
         dialog.setCanceledOnTouchOutside(false);
