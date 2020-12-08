@@ -186,45 +186,49 @@ public class AddCardActivity extends AppCompatActivity {
                 }
             }
         }else if (requestCode == SCAN_PHOTO){
-            Uri selectedImage = data.getData();
-            InputStream imageStream = null;
-            try {
-                //getting the image
-                imageStream = getContentResolver().openInputStream(selectedImage);
-            } catch (FileNotFoundException e) {
-                Toast.makeText(getApplicationContext(), "File not found", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
-            //decoding bitmap
-            Bitmap bMap = BitmapFactory.decodeStream(imageStream);
-            int[] intArray = new int[bMap.getWidth() * bMap.getHeight()];
-            // copy pixel data from the Bitmap into the 'intArray' array
-            bMap.getPixels(intArray, 0, bMap.getWidth(), 0, 0, bMap.getWidth(),
-                    bMap.getHeight());
+            if (data!=null) {
+                Uri selectedImage = data.getData();
 
-            LuminanceSource source = new RGBLuminanceSource(bMap.getWidth(),
-                    bMap.getHeight(), intArray);
-            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+                InputStream imageStream = null;
+                try {
+                    //getting the image
+                    imageStream = getContentResolver().openInputStream(selectedImage);
 
-            MultiFormatReader reader = new MultiFormatReader();// use this otherwise
-            // ChecksumException
-            try {
-                Hashtable<DecodeHintType, Object> decodeHints = new Hashtable<DecodeHintType, Object>();
-                decodeHints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
-                decodeHints.put(DecodeHintType.PURE_BARCODE, Boolean.FALSE);
+                    //decoding bitmap
+                    Bitmap bMap = BitmapFactory.decodeStream(imageStream);
+                    int[] intArray = new int[bMap.getWidth() * bMap.getHeight()];
+                    // copy pixel data from the Bitmap into the 'intArray' array
+                    bMap.getPixels(intArray, 0, bMap.getWidth(), 0, 0, bMap.getWidth(),
+                            bMap.getHeight());
 
-                Result result = reader.decode(bitmap, decodeHints);
-                //*I have created a global string variable by the name of barcode to easily manipulate data across the application*//
-                if (result != null) {
-                    final Activity act = AddCardActivity.this;
-                    barcodeData = result.getText().toString();
-                    barcodeType = result.getBarcodeFormat().toString();
-                    vcardNumber.setText(barcodeData);
+                    LuminanceSource source = new RGBLuminanceSource(bMap.getWidth(),
+                            bMap.getHeight(), intArray);
+                    BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
 
+                    MultiFormatReader reader = new MultiFormatReader();// use this otherwise
+                    // ChecksumException
+                    try {
+                        Hashtable<DecodeHintType, Object> decodeHints = new Hashtable<DecodeHintType, Object>();
+                        decodeHints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
+                        decodeHints.put(DecodeHintType.PURE_BARCODE, Boolean.FALSE);
+
+                        Result result = reader.decode(bitmap, decodeHints);
+                        //*I have created a global string variable by the name of barcode to easily manipulate data across the application*//
+                        if (result != null) {
+                            final Activity act = AddCardActivity.this;
+                            barcodeData = result.getText().toString();
+                            barcodeType = result.getBarcodeFormat().toString();
+                            vcardNumber.setText(barcodeData);
+
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(AddCardActivity.this, getString(R.string.use_clear_img), Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (FileNotFoundException e) {
+                    Toast.makeText(getApplicationContext(), "No File Selected", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                 }
-            } catch( Exception e){
-                Toast.makeText(AddCardActivity.this,getString(R.string.use_clear_img),Toast.LENGTH_SHORT).show();
-
             }
         }
 //        finish();
