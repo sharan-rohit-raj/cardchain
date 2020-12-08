@@ -182,7 +182,7 @@ public class AddCardActivity extends AppCompatActivity {
                     barcodeData=result.getContents();
 //                    Toast.makeText(act,"Barcode Data Read! :  "+ barcodeData,Toast.LENGTH_SHORT).show();
                     barcodeType=result.getFormatName();
-                    vcardNumber.setText(barcodeData);
+                    vcardNumber.setText(barcodeData.substring(0, Math.min(16, barcodeData.length())));
                 }
             }
         }else if (requestCode == SCAN_PHOTO){
@@ -411,6 +411,7 @@ public class AddCardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                finish();
             }
         });
         dialog.show();
