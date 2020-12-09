@@ -7,11 +7,52 @@ title __CARDCHAIN's Class Diagram__\n
         - context : Context
         - layoutInflater : LayoutInflater
         - models : List<Model>
+        - multiFormatWriter : MultiFormatWriter
         + Adapter()
         + destroyItem()
         + getCount()
+        + getItemPosition()
         + instantiateItem()
         + isViewFromObject()
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.AddCardActivity {
+        ~ addCard : Button
+        ~ addCardImage : ImageView
+        ~ auth : FirebaseAuth
+        ~ backBtn : ImageButton
+        ~ barcodeData : String
+        ~ barcodeType : String
+        ~ cardDetails : Map<String, Object>
+        ~ cardnumCount : int
+        ~ cm : ConnectivityManager
+        ~ db : FirebaseFirestore
+        ~ ecardHoldName : EditText
+        ~ ecardName : EditText
+        ~ photoScan : Button
+        ~ vcardCompany : TextView
+        ~ vcardName : TextView
+        ~ vcardNumber : TextView
+        {static} - CAMERA_PERMISSION_CODE : int
+        {static} - SCAN_PHOTO : int
+        + AddNewCard()
+        + SaveCard()
+        + ScanPhoto()
+        + errorCardDialog()
+        + errorDialog()
+        + onBackPressed()
+        + onRequestPermissionsResult()
+        + successDialog()
+        # onActivityResult()
+        # onCreate()
+        - checkConnection()
+        - checkPermission()
+        - openScanner()
+        - requestPermission()
+        - saveCardToFireStore()
     }
   }
   
@@ -30,12 +71,103 @@ title __CARDCHAIN's Class Diagram__\n
   
 
   namespace com.example.cardchain {
+    class com.example.cardchain.CardListAdapter {
+        - context : Context
+        - listCardModels : ArrayList<ListCardModel>
+        - multiFormatWriter : MultiFormatWriter
+        + CardListAdapter()
+        + getCount()
+        + getItem()
+        + getItemId()
+        + getView()
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.CardModel {
+        + cardholder : String
+        + cardname : String
+        + cardnumber : String
+        + CardModel()
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.ContactUs {
+        ~ auth : FirebaseAuth
+        ~ cm : ConnectivityManager
+        ~ emailMsg : EditText
+        ~ user : FirebaseUser
+        + contact_us_back()
+        + errorDialog()
+        + onBackPressed()
+        + sendEmail()
+        # onCreate()
+        - checkConnection()
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.EditProfile {
+        ~ TAG : String
+        ~ auth : FirebaseAuth
+        ~ backBtn : ImageButton
+        ~ cm : ConnectivityManager
+        ~ db : FirebaseFirestore
+        ~ emailField : EditText
+        ~ email_id : String
+        ~ firstName : EditText
+        ~ first_name : String
+        ~ initialProgBar : ProgressBar
+        ~ lastName : EditText
+        ~ last_name : String
+        ~ phNo : EditText
+        ~ ph_num : String
+        ~ progressBar : ProgressBar
+        ~ saveBtn : Button
+        ~ user : FirebaseUser
+        ~ valueChanged : boolean
+        + errorDialog()
+        + fillFields()
+        + onBackPressed()
+        + saveAuthInfo()
+        + saveData()
+        # onCreate()
+        # onStart()
+        - checkConnection()
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.EditProfileModel {
+        - first_name : String
+        - last_name : String
+        - phone_num : String
+        + EditProfileModel()
+        + equals()
+        + getFirst_name()
+        + getLast_name()
+        + getPhone_num()
+        + hashCode()
+        + setFirst_name()
+        + setLast_name()
+        + setPhone_num()
+    }
+  }
+  
+
+  namespace com.example.cardchain {
     class com.example.cardchain.ForgotPasswordActivity {
         ~ emailField : EditText
         ~ forgProg : ProgressBar
         ~ forg_btn : Button
         - TAG : String
         - email : String
+        + errorDialog()
         + onBackPressed()
         + returnToLoginFunc()
         + successDialog()
@@ -48,20 +180,72 @@ title __CARDCHAIN's Class Diagram__\n
   namespace com.example.cardchain {
     class com.example.cardchain.HomeActivity {
         {static} + HomeAct : Activity
+        {static} ~ STORAGE_PERMISSION_CODE : int
         ~ auth : FirebaseAuth
+        ~ cm : ConnectivityManager
+        ~ db : FirebaseFirestore
+        ~ drawerName : TextView
+        ~ drawerToggle : ActionBarDrawerToggle
+        ~ drawer_Layout : DrawerLayout
         ~ logoutBtn : ImageButton
         ~ meowNav : MeowBottomNavigation
+        ~ navView : NavigationView
+        ~ sharedPreferences : SharedPreferences
+        ~ user : FirebaseUser
         {static} - ADD_CARD_ID : int
+        {static} - CAMERA_PERMISSION_CODE : int
         {static} - LIST_CARD_ID : int
         {static} - SLIDE_ID : int
         - alreadyCalled : boolean
         - toolBar : Toolbar
+        + aboutDialog()
+        + deleteAllCards()
+        + errorDialog()
         + onActivityResult()
         + onAuthStateChanged()
+        + onRequestPermissionsResult()
         # onCreate()
         # onStart()
         # onStop()
+        - checkConnection()
+        - checkPermission()
+        - deleteFirebaseAccount()
+        - requestPermission()
         - startLoginActivity()
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.ImageBlur {
+        ~ context : Context
+        + makeBlur()
+        ~ ImageBlur()
+        - RGB565toARGB888()
+        - blurRenderScript()
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.ListCardModel {
+        - barcode : String
+        - barcodeType : String
+        - cardHold : String
+        - cardname : String
+        - cardnumber : String
+        - imageID : int
+        - showingCode : boolean
+        + ListCardModel()
+        + getBarcode()
+        + getBarcodeType()
+        + getCardHold()
+        + getCardname()
+        + getCardnumber()
+        + getImageID()
+        + isShowingCode()
+        + setCardHold()
+        + toggleCard()
     }
   }
   
@@ -77,9 +261,10 @@ title __CARDCHAIN's Class Diagram__\n
         - passField : EditText
         - password : String
         - sharedPref : SharedPreferences
+        - signup : Button
+        + errorDialog()
         + forgotPassFunc()
         + onBackPressed()
-        + returnToWelcomeFunc()
         # onCreate()
         # onResume()
         - updateUI()
@@ -89,17 +274,64 @@ title __CARDCHAIN's Class Diagram__\n
 
   namespace com.example.cardchain {
     class com.example.cardchain.Model {
+        - barcode : String
+        - barcodeType : String
+        - cardHoldName : String
+        - cardname : String
+        - cardnumber : String
         - image : int
+        - showingCode : boolean
         + Model()
+        + getBarcode()
+        + getBarcodeType()
+        + getCardHoldName()
+        + getCardname()
+        + getCardnumber()
         + getImage()
+        + isShowingCode()
+        + setBarcode()
+        + setBarcodeType()
+        + setCardHoldName()
+        + setCardname()
+        + setCardnumber()
         + setImage()
+        + setShowingCode()
+        + toggle()
     }
   }
   
 
   namespace com.example.cardchain {
-    class com.example.cardchain.ProfileActivity {
+    class com.example.cardchain.OnBoardingActitivity {
+        {static} + onBoardingCompleted : String
+        + onboarding_desc : String[]
+        + onboarding_headings : String[]
+        + onboarding_images : int[]
+        ~ currPage : int
+        ~ dotsLayout : LinearLayout
+        ~ nextBtn : Button
+        ~ onBoardingSlides : ViewPager
+        ~ prevBtn : Button
+        ~ viewListener : OnPageChangeListener
+        - mDots : TextView[]
+        + addDots()
         # onCreate()
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.OnboardingAdapter {
+        + onboarding_desc : String[]
+        + onboarding_headings : String[]
+        + onboarding_images : int[]
+        ~ context : Context
+        ~ layoutInflater : LayoutInflater
+        + OnboardingAdapter()
+        + destroyItem()
+        + getCount()
+        + instantiateItem()
+        + isViewFromObject()
     }
   }
   
@@ -115,8 +347,8 @@ title __CARDCHAIN's Class Diagram__\n
         - emailId : String
         - pass : String
         - progressBar : ProgressBar
+        + errorDialog()
         + onBackPressed()
-        + returnToWelcomeFunc()
         + successDialog()
         # onCreate()
         # onResume()
@@ -140,6 +372,48 @@ title __CARDCHAIN's Class Diagram__\n
     class com.example.cardchain.Validation {
         + emailValidation()
         + passwordStrength()
+        + phoneNumValidation()
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.ViewPagerZoomAnim {
+        - MIN_ALPHA : float
+        - MIN_SCALE : float
+        + transformPage()
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.WeatherDialog {
+        # locationListener : LocationListener
+        # locationManager : LocationManager
+        - currentTemperature : TextView
+        - currentWeather : TextView
+        - greeting : TextView
+        - highLow : TextView
+        - lay : CardView
+        - timePic : ImageView
+        + WeatherDialog()
+        # onCreate()
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.WeatherDialog.GetWeather {
+        # city : String
+        - currentTemp : String
+        - maxTemp : String
+        - minTemp : String
+        - weather : String
+        # doInBackground()
+        # onPostExecute()
+        # onPreExecute()
+        # onProgressUpdate()
+        ~ GetWeather()
     }
   }
   
@@ -154,13 +428,30 @@ title __CARDCHAIN's Class Diagram__\n
   
 
   com.example.cardchain.Adapter -up-|> androidx.viewpager.widget.PagerAdapter
+  com.example.cardchain.Adapter o-- com.example.cardchain.ImageBlur : imageBlur
+  com.example.cardchain.Adapter o-- MainFragments.FragmentSlide : parent
+  com.example.cardchain.AddCardActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.cardchain.CardListAdapter -up-|> android.widget.BaseAdapter
+  com.example.cardchain.CardListAdapter o-- com.example.cardchain.ImageBlur : imageBlur
+  com.example.cardchain.CardListAdapter o-- MainFragments.FragmentList : parent
+  com.example.cardchain.ContactUs -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.cardchain.EditProfile -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.cardchain.EditProfile o-- com.example.cardchain.EditProfileModel : editProfileModel
+  com.example.cardchain.EditProfile o-- com.example.cardchain.Validation : validation
   com.example.cardchain.ForgotPasswordActivity -up-|> androidx.appcompat.app.AppCompatActivity
   com.example.cardchain.HomeActivity .up.|> com.google.firebase.auth.FirebaseAuth.AuthStateListener
   com.example.cardchain.HomeActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.cardchain.HomeActivity o-- com.example.cardchain.WeatherDialog : dialog
   com.example.cardchain.LoginActivity -up-|> androidx.appcompat.app.AppCompatActivity
-  com.example.cardchain.ProfileActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.cardchain.OnBoardingActitivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.cardchain.OnBoardingActitivity o-- com.example.cardchain.OnboardingAdapter : onboardingAdapter
+  com.example.cardchain.OnboardingAdapter -up-|> androidx.viewpager.widget.PagerAdapter
   com.example.cardchain.SignUpActivity -up-|> androidx.appcompat.app.AppCompatActivity
   com.example.cardchain.SplashScreen -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.cardchain.ViewPagerZoomAnim .up.|> androidx.viewpager.widget.ViewPager.PageTransformer
+  com.example.cardchain.WeatherDialog -up-|> android.app.Dialog
+  com.example.cardchain.WeatherDialog +-down- com.example.cardchain.WeatherDialog.GetWeather
+  com.example.cardchain.WeatherDialog.GetWeather -up-|> android.os.AsyncTask
   com.example.cardchain.WelcomeActivity -up-|> androidx.appcompat.app.AppCompatActivity
 
 

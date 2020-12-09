@@ -1,0 +1,194 @@
+@startuml
+
+title __CARDCHAIN.APP's Class Diagram__\n
+
+  namespace MainFragments {
+    class MainFragments.FragmentList {
+    }
+  }
+  
+
+  namespace MainFragments {
+    class MainFragments.FragmentSlide {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.Adapter {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.AddCardActivity {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.AuthenticationHandler {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.BuildConfig {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.CardListAdapter {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.CardModel {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.ContactUs {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.EditProfile {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.EditProfileModel {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.ForgotPasswordActivity {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.HomeActivity {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.ImageBlur {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.ListCardModel {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.LoginActivity {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.Model {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.OnBoardingActitivity {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.OnboardingAdapter {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.SignUpActivity {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.SplashScreen {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.Validation {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.ViewPagerZoomAnim {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.WeatherDialog {
+    }
+  }
+  
+
+  namespace com.example.cardchain {
+    class com.example.cardchain.WelcomeActivity {
+    }
+  }
+  
+
+  MainFragments.FragmentList -up-|> androidx.fragment.app.Fragment
+  MainFragments.FragmentList o-- com.example.cardchain.CardListAdapter : cardListAdapter
+  MainFragments.FragmentList o-- com.example.cardchain.ListCardModel : cardModel
+  MainFragments.FragmentSlide -up-|> androidx.fragment.app.Fragment
+  MainFragments.FragmentSlide o-- com.example.cardchain.Adapter : adapter
+  MainFragments.FragmentSlide o-- com.example.cardchain.Model : model
+  com.example.cardchain.Adapter -up-|> androidx.viewpager.widget.PagerAdapter
+  com.example.cardchain.Adapter o-- com.example.cardchain.ImageBlur : imageBlur
+  com.example.cardchain.Adapter o-- MainFragments.FragmentSlide : parent
+  com.example.cardchain.AddCardActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.cardchain.CardListAdapter -up-|> android.widget.BaseAdapter
+  com.example.cardchain.CardListAdapter o-- com.example.cardchain.ImageBlur : imageBlur
+  com.example.cardchain.CardListAdapter o-- MainFragments.FragmentList : parent
+  com.example.cardchain.ContactUs -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.cardchain.EditProfile -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.cardchain.EditProfile o-- com.example.cardchain.EditProfileModel : editProfileModel
+  com.example.cardchain.EditProfile o-- com.example.cardchain.Validation : validation
+  com.example.cardchain.ForgotPasswordActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.cardchain.HomeActivity .up.|> com.google.firebase.auth.FirebaseAuth.AuthStateListener
+  com.example.cardchain.HomeActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.cardchain.HomeActivity o-- com.example.cardchain.WeatherDialog : dialog
+  com.example.cardchain.LoginActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.cardchain.OnBoardingActitivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.cardchain.OnBoardingActitivity o-- com.example.cardchain.OnboardingAdapter : onboardingAdapter
+  com.example.cardchain.OnboardingAdapter -up-|> androidx.viewpager.widget.PagerAdapter
+  com.example.cardchain.SignUpActivity -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.cardchain.SplashScreen -up-|> androidx.appcompat.app.AppCompatActivity
+  com.example.cardchain.ViewPagerZoomAnim .up.|> androidx.viewpager.widget.ViewPager.PageTransformer
+  com.example.cardchain.WeatherDialog -up-|> android.app.Dialog
+  com.example.cardchain.WelcomeActivity -up-|> androidx.appcompat.app.AppCompatActivity
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml
