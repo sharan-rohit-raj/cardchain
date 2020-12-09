@@ -94,4 +94,5 @@
     <string name="pass_spl">, special characters</string>
     <string name="pass_not_contain">Password doesn\'t contain </string>
     <string name="forg_pass_email_err">Hmm… we don\'t think we have your account…</string>
+    <string name="contact_us_note">Note: We only accept Email as the mode of contact. So please choose email when you are shown the options.</string>
 </resources>
